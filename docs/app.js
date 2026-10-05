@@ -528,10 +528,12 @@ async function init() {
   for (const p of pl.places) state.byId[p.id] = p;
   // proofreading layer over the extracted text (tools/check_corrections.py validates it)
   for (const ed of corr.edits) {
-    const pg = ((state.byId[ed.id] || {}).description || [])[ed.page];
-    if (!pg || pg.text.split(ed.find).length !== 2) { console.warn('correction not applied', ed); continue; }
-    if (pg.orig == null) pg.orig = pg.text;
-    pg.text = pg.text.replace(ed.find, () => ed.replace);
+    const field = ed.field || 'text';
+    const place = state.byId[ed.id];
+    const obj = field === 'name' || field === 'hanja' ? place : ((place || {}).description || [])[ed.page];
+    if (!obj || typeof obj[field] !== 'string' || obj[field].split(ed.find).length !== 2) { console.warn('correction not applied', ed); continue; }
+    if (field === 'text' && obj.orig == null) obj.orig = obj.text;
+    obj[field] = obj[field].replace(ed.find, () => ed.replace);
   }
   // hand-written supplement for regions the original left unfinished (kept apart from extracted data)
   for (const [id, x] of Object.entries(sup.provinces)) {
