@@ -395,7 +395,7 @@ function pageAbout() {
     </div>
     <div class="card">
       <h2 style="margin-top:0">이 사이트</h2>
-      <p>원본 SWF에서 벡터 지도와 텍스트를 추출해 정적 웹 페이지로 다시 만들었습니다. 원작의 명승지 사진(제3자 사진으로 보임)은 싣지 않았습니다. 원작에서 미완성이던 북경·천진은 이 프로젝트에서 따로 쓴 보충 글을 ‘보충 자료’로 표시해 실었습니다. 글꼴: Noto Sans KR, Noto Serif KR (SIL Open Font License).</p>
+      <p>원본 SWF에서 벡터 지도와 텍스트를 추출해 정적 웹 페이지로 다시 만들었습니다. 원작의 명승지 사진(제3자 사진으로 보임)은 싣지 않았습니다. 원작에서 미완성이던 북경·천진·중경은 이 프로젝트에서 따로 쓴 보충 글을 ‘보충 자료’로 표시해 실었습니다. 글꼴: Noto Sans KR, Noto Serif KR (SIL Open Font License).</p>
       <p><a href="https://github.com/seoyeonwoo1223/Wuxia-Maping-Project" rel="noopener">소스 저장소</a></p>
     </div>
     <h2>원작자의 말</h2>
