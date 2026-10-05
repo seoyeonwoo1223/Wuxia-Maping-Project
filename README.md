@@ -29,6 +29,7 @@ python tools/extract.py legacy/murim.swf docs
 - `docs/data/emperors.json` — 제왕연표, `landmarks.json` — 주요지명, `about.json` — 원작 고지
 - `docs/data/report.json` — 연결 통계와 사용되지 않은 텍스트 목록
 - 원작의 명승지 사진(JPEG)은 제3자 저작물로 보여 추출·사용하지 않음
+- `docs/data/supplement.json` — 원작에서 미완성이던 북경·천진의 보충 글(직접 작성, 참고 링크 포함). 추출 스크립트와 무관하게 손으로 편집
 
 ### 웹 사이트
 

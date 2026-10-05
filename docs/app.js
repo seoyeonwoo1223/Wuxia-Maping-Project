@@ -167,9 +167,9 @@ function decorateChina() {
   for (const g of svg.querySelectorAll('.province')) {
     const p = state.byId[g.dataset.id];
     if (!p) continue;
-    if (!p.detail_map) g.classList.add('todo');
+    if (!p.detail_map) g.classList.add(p.extra ? 'extra' : 'todo');
     const t = document.createElementNS(SVGNS, 'title');
-    t.textContent = p.name + (p.detail_map ? '' : ' (원작 미완성)');
+    t.textContent = p.name + (p.detail_map ? '' : p.extra ? ' (보충 자료)' : ' (원작 미완성)');
     g.prepend(t);
     g.addEventListener('click', () => go(`#/place/${p.id}`));
   }
@@ -254,7 +254,7 @@ function placeList(items) {
     `<li><a href="#/place/${p.id}"><span>${nameHtml(p)}</span><span class="k">${esc(p.kind)}${p.x == null ? ' · 위치 미상' : ''}</span></a></li>`).join('')}</ul>`;
 }
 
-const KIND_ORDER = { '성도': 0, '문파': 1, '명승지': 2, '도시': 3, '지명': 4 };
+const KIND_ORDER = { '성도': 0, '문파': 1, '세력': 2, '명승지': 3, '무공': 4, '인물': 5, '도시': 6, '지명': 7 };
 function describedIn(pid) {
   return state.places.filter(p => p.province === pid && p.kind !== '성' && p.description)
     .sort((a, b) => (KIND_ORDER[a.kind] ?? 9) - (KIND_ORDER[b.kind] ?? 9));
@@ -266,11 +266,24 @@ function panelChina() {
     <h2>중국전도<span class="hj">中國全圖</span></h2>
     <p class="note">2003년 낙방수재가 만든 「무협용 중국전도 Ver. 2.0」을 다시 정리한 지도입니다. 성을 누르면 성별 지도와 지명·문파 설명이 열립니다.</p>
     <div class="section-h">성 목록</div>
-    <ul class="list">${provs.map(p => `<li><a href="#/place/${p.id}"><span>${nameHtml(p)}</span><span class="k">${p.detail_map ? `설명 ${describedIn(p.id).length}` : '원작 미완성'}</span></a></li>`).join('')}</ul>
+    <ul class="list">${provs.map(p => `<li><a href="#/place/${p.id}"><span>${nameHtml(p)}</span><span class="k">${p.detail_map ? `설명 ${describedIn(p.id).length}` : p.extra ? '보충 자료' : '원작 미완성'}</span></a></li>`).join('')}</ul>
   `, false);
 }
 
+const sourcesHtml = list => `<div class="section-h">참고 자료</div><ul class="list">${list.map(s =>
+  `<li><a href="${esc(s.url)}" rel="noopener" target="_blank"><span>${esc(s.title)}</span><span class="k">↗</span></a></li>`).join('')}</ul>`;
+const SUPPLEMENT_NOTE = `<p class="note">원작(Ver. 2.0)에는 없던 지역이라, 이 프로젝트에서 보충한 글입니다. 원작 내용이 아니며 상세 지도도 없습니다.</p>`;
+
 function panelProvince(p) {
+  if (!p.detail_map && p.extra) {
+    const items = describedIn(p.id);
+    setPanel(`<h2>${nameHtml(p)}</h2><div class="meta"><span class="chip k">성</span><span class="chip">보충 자료</span></div>
+      ${SUPPLEMENT_NOTE}
+      ${p.extra.description.map(d => prose(d.text)).join('')}
+      ${items.length ? `<div class="section-h">문파·세력·명소 · ${items.length}</div>${placeList(items)}` : ''}
+      ${sourcesHtml(p.extra.sources)}`);
+    return;
+  }
   if (!p.detail_map) {
     setPanel(`<h2>${nameHtml(p)}</h2><div class="meta"><span class="chip k">성</span></div>
       <p>원작(Ver. 2.0)에서 “여기는 아직 준비중이라오.”로 남아 있던 지역이라 상세 지도와 설명이 없습니다.</p>
@@ -298,12 +311,13 @@ function panelPlace(p) {
       <span class="chip k">${esc(p.kind)}</span>
       ${prov ? `<a class="chip" href="#/place/${prov.id}">${esc(prov.name)}</a>` : ''}
     </div>
-    ${p.x == null ? `<p class="note">원작의 목록에만 있고 지도 위치가 없는 항목입니다.</p>` : ''}
+    ${p.supplement ? SUPPLEMENT_NOTE.replace('지역이라', '지역의 항목이라').replace(' 상세 지도도 없습니다', ' 지도 위치는 없습니다') : p.x == null ? `<p class="note">원작의 목록에만 있고 지도 위치가 없는 항목입니다.</p>` : ''}
     ${near && p.located === 'description' ? `<p class="note">지도 위치는 설명에 나오는 ‘${esc(near.name)}’ 기준의 대략적인 위치입니다.</p>` : ''}
     ${pages.length > 1 ? `<div class="pages-nav">${pages.map((d, i) => `<a class="chip" href="#pg${i}" data-pg="${i}">${esc(pageTitle(d.title, p))}</a>`).join('')}</div>` : ''}
     ${pages.map((d, i) => `${pages.length > 1 ? `<div class="page-title" id="pg${i}">${esc(pageTitle(d.title, p))}</div>` : ''}${prose(d.text)}`).join('')}
     ${!pages.length ? `<p class="note">원작에 별도 설명이 없는 지명입니다.</p>` : ''}
     ${sameName.length ? `<div class="section-h">같은 이름</div>${placeList(sameName)}` : ''}
+    ${p.supplement && prov && prov.extra ? sourcesHtml(prov.extra.sources) : ''}
   `);
   for (const a of panel.querySelectorAll('[data-pg]')) {
     a.onclick = e => { e.preventDefault(); panel.querySelector('#pg' + a.dataset.pg).scrollIntoView({ behavior: 'smooth' }); };
@@ -381,7 +395,7 @@ function pageAbout() {
     </div>
     <div class="card">
       <h2 style="margin-top:0">이 사이트</h2>
-      <p>원본 SWF에서 벡터 지도와 텍스트를 추출해 정적 웹 페이지로 다시 만들었습니다. 원작의 명승지 사진(제3자 사진으로 보임)은 싣지 않았습니다. 글꼴: Noto Sans KR, Noto Serif KR (SIL Open Font License).</p>
+      <p>원본 SWF에서 벡터 지도와 텍스트를 추출해 정적 웹 페이지로 다시 만들었습니다. 원작의 명승지 사진(제3자 사진으로 보임)은 싣지 않았습니다. 원작에서 미완성이던 북경·천진은 이 프로젝트에서 따로 쓴 보충 글을 ‘보충 자료’로 표시해 실었습니다. 글꼴: Noto Sans KR, Noto Serif KR (SIL Open Font License).</p>
       <p><a href="https://github.com/seoyeonwoo1223/Wuxia-Maping-Project" rel="noopener">소스 저장소</a></p>
     </div>
     <h2>원작자의 말</h2>
@@ -420,7 +434,7 @@ function renderResults() {
   results.innerHTML = hits.length
     ? hits.map((h, i) => `<li role="option" data-i="${i}" aria-selected="${i === cursor}">
         <span class="r-name">${esc(h.p.name)}</span>${h.p.hanja ? `<span class="r-hanja">${esc(h.p.hanja)}</span>` : ''}
-        <span class="r-meta">${esc(h.p.kind)} · ${esc(provName(h.p.province))}${h.body ? ' · 본문에 언급' : ''}</span></li>`).join('')
+        <span class="r-meta">${esc(h.p.kind)} · ${esc(provName(h.p.province))}${h.p.supplement ? ' · 보충' : ''}${h.body ? ' · 본문에 언급' : ''}</span></li>`).join('')
     : `<li class="r-empty">결과 없음</li>`;
 }
 function pick(i) {
@@ -482,11 +496,22 @@ async function route() {
 }
 
 async function init() {
-  const [pl, emp, lm, ab] = await Promise.all(
-    ['places', 'emperors', 'landmarks', 'about'].map(n => fetch(`data/${n}.json`).then(r => r.json())));
+  const [pl, emp, lm, ab, sup] = await Promise.all(
+    ['places', 'emperors', 'landmarks', 'about', 'supplement'].map(n => fetch(`data/${n}.json`).then(r => r.json())));
   for (const m of pl.maps) state.maps[m.id] = m;
   state.places = pl.places;
   for (const p of pl.places) state.byId[p.id] = p;
+  // hand-written supplement for regions the original left unfinished (kept apart from extracted data)
+  for (const [id, x] of Object.entries(sup.provinces)) {
+    const p = state.byId[id];
+    if (!p) continue;
+    p.name = x.name; p.hanja = x.hanja;
+    p.extra = { description: x.description, sources: x.sources };
+  }
+  for (const x of sup.places) {
+    const p = { ...x, map: 'china', x: null, y: null, supplement: true };
+    state.places.push(p); state.byId[p.id] = p;
+  }
   state.emperors = emp; state.landmarks = lm; state.about = ab;
   window.addEventListener('hashchange', route);
   route();

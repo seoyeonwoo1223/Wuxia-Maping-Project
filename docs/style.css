@@ -93,6 +93,7 @@ main { height: calc(100% - var(--top-h)); }
 .map .province { cursor: pointer; }
 .map .province:hover path[fill="#ff0000"], .map .province.on path[fill="#ff0000"] { fill: var(--province-hover); }
 .map .province.todo path[fill="#ff0000"] { fill: #c9a9a2; }
+.map .province.extra path[fill="#ff0000"] { fill: #d98a6f; }
 .lbl { font-family: "Noto Sans KR", sans-serif; paint-order: stroke; stroke: #fffdf8; stroke-linejoin: round; fill: #3a302a; cursor: pointer; }
 .lbl.minor { fill: #4a4038; }
 .lbl.major { font-weight: 700; fill: #8c2a1c; }
