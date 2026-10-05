@@ -325,6 +325,9 @@ function panelPlace(p) {
   const pages = p.description || [];
   const near = p.near && state.byId[p.near];
   const sameName = state.places.filter(q => q !== p && q.description && q.name === p.name && q.kind !== '인접 지역');
+  // pages that share a title in the original (e.g. 화산파 1/2) get a running number
+  const raw = pages.map(d => pageTitle(d.title, p));
+  const titles = raw.map((t, i) => (raw.filter(x => x === t).length > 1 ? `${t} ${raw.slice(0, i + 1).filter(x => x === t).length}` : t));
   setPanel(`
     <h2>${nameHtml(p)}</h2>
     <div class="meta">
@@ -334,8 +337,8 @@ function panelPlace(p) {
     ${p.supplement ? SUPPLEMENT_NOTE.replace('지역이라', '지역의 항목이라').replace(' 상세 지도도 없습니다', ' 지도 위치는 없습니다') : p.x == null ? `<p class="note">원작의 목록에만 있고 지도 위치가 없는 항목입니다.</p>` : ''}
     ${near && p.located === 'description' ? `<p class="note">지도 위치는 설명에 나오는 ‘${esc(near.name)}’ 기준의 대략적인 위치입니다.</p>` : ''}
     ${corrNote(pages)}
-    ${pages.length > 1 ? `<div class="pages-nav">${pages.map((d, i) => `<a class="chip" href="#pg${i}" data-pg="${i}">${esc(pageTitle(d.title, p))}</a>`).join('')}</div>` : ''}
-    ${pages.map((d, i) => `${pages.length > 1 ? `<div class="page-title" id="pg${i}">${esc(pageTitle(d.title, p))}</div>` : ''}${prose(pageText(d))}`).join('')}
+    ${pages.length > 1 ? `<div class="pages-nav">${pages.map((d, i) => `<a class="chip" href="#pg${i}" data-pg="${i}">${esc(titles[i])}</a>`).join('')}</div>` : ''}
+    ${pages.map((d, i) => `${pages.length > 1 ? `<div class="page-title" id="pg${i}">${esc(titles[i])}</div>` : ''}${prose(pageText(d))}`).join('')}
     ${!pages.length ? `<p class="note">원작에 별도 설명이 없는 지명입니다.</p>` : ''}
     ${sameName.length ? `<div class="section-h">같은 이름</div>${placeList(sameName)}` : ''}
     ${p.supplement && prov && prov.extra ? sourcesHtml(prov.extra.sources) : ''}
