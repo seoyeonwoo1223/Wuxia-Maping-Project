@@ -15,6 +15,20 @@
 - `legacy/index.html` — Ruffle로 원본을 띄우는 참고용 뷰어
 - `tools/swfdump.py` — SWF 태그 통계, JPEG·텍스트 추출
 - `tools/fix_encoding.py` — CP949 텍스트 필드를 UTF-8로 바꾸고 SWF 6으로 올림 (Ruffle 한글 표시용)
+- `tools/swflib.py`, `tools/swfsvg.py` — 의존성 없는 SWF 파서 / 벡터 도형 → SVG 변환
+- `tools/extract.py` — 지도 SVG와 데이터(JSON)를 `docs/`로 추출
+
+### 데이터 추출
+
+```bash
+python tools/extract.py legacy/murim.swf docs
+```
+
+- `docs/maps/china.svg`, `docs/maps/<성>.svg` — 전국도·성별 상세도 (텍스트 제외, 좌표 단위 px)
+- `docs/data/places.json` — 성·도시·명승지·문파: 이름(한글/한자), 소속 성, 종류, 설명, 지도 좌표
+- `docs/data/emperors.json` — 제왕연표, `landmarks.json` — 주요지명, `about.json` — 원작 고지
+- `docs/data/report.json` — 연결 통계와 사용되지 않은 텍스트 목록
+- 원작의 명승지 사진(JPEG)은 제3자 저작물로 보여 추출·사용하지 않음
 
 ### 원본 뷰어 실행
 
