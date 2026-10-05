@@ -29,6 +29,7 @@ python tools/extract.py legacy/murim.swf docs
 - `docs/data/emperors.json` — 제왕연표, `landmarks.json` — 주요지명, `about.json` — 원작 고지
 - `docs/data/report.json` — 연결 통계와 사용되지 않은 텍스트 목록
 - 원작의 명승지 사진(JPEG)은 제3자 저작물로 보여 추출·사용하지 않음
+- `docs/data/corrections.json` — 원작 설명 글의 오탈자·비문 교정(원문 구절 → 고친 구절). 원문은 `places.json`에 그대로 두고 사이트가 불러올 때 적용, 패널의 ‘원문 보기’로 원문 확인. 고친 뒤 `python tools/check_corrections.py`로 검사
 - `docs/data/supplement.json` — 원작에서 미완성이던 북경·천진·중경의 보충 글(직접 작성, 참고 링크 포함). 추출 스크립트와 무관하게 손으로 편집
 
 ### 웹 사이트
