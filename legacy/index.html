@@ -1,0 +1,11 @@
+﻿<!doctype html>
+<meta charset="utf-8">
+<title>무협용 중국전도 Ver. 2.0</title>
+<style>html,body{margin:0;height:100%;background:#111}ruffle-player{width:100%;height:100%}</style>
+<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+<div id="p" style="width:100%;height:100%"></div>
+<script>
+  const player = window.RufflePlayer.newest().createPlayer();
+  document.getElementById('p').appendChild(player);
+  player.load({ url: 'murim_ko.swf', letterbox: 'on', autoplay: 'on', unmuteOverlay: 'hidden', fontSources: ['font.ttf'], defaultFonts: { sans: ['Noto Sans KR'], serif: ['Noto Sans KR'], typewriter: ['Noto Sans KR'] } });
+</script>
