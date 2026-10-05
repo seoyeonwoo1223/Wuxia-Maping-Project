@@ -105,6 +105,25 @@ main { height: calc(100% - var(--top-h)); }
 .hide-minor .minor { display: none; }
 .hide-hanja .hj { display: none; }
 
+/* province maps: old-map palette over the original SWF colours (SVG files stay untouched) */
+.map.detail [stroke="#000000"] { stroke: #3b2f28; }
+.map.detail [stroke="#ff0000"] { stroke: #b8452f; }
+.map.detail [stroke="#ff6600"] { stroke: #d29a52; }
+.map.detail [stroke="#0000ff"], .map.detail [stroke="#0066ff"], .map.detail [stroke="#0033ff"] { stroke: #4a7aa6; }
+.map.detail [fill="#0000ff"]:not([fill-opacity]), .map.detail [fill="#0099ff"], .map.detail [fill="#0066ff"] { fill: #7fa8c9; }
+.map.detail [fill="#3399ff"] { fill: #fffdf8; }
+.map.detail [fill="#009900"], .map.detail [fill="#339900"]:not([fill-opacity]) { fill: #6d8a55; }
+.map.detail [fill-opacity="0.2"] { fill-opacity: .1; }
+
+.legend {
+  position: absolute; left: 12px; bottom: 16px; z-index: 2; margin: 0; padding: 8px 12px; list-style: none;
+  background: rgba(255, 253, 248, .92); border: 1px solid #e2d8c8; border-radius: 8px;
+  font-size: 12px; line-height: 1.9; color: #3a302a; box-shadow: 0 1px 4px rgba(60, 40, 20, .1);
+}
+.legend[hidden] { display: none; }
+.legend li { display: flex; align-items: center; gap: 8px; }
+.legend svg { width: 26px; height: 12px; flex: none; }
+
 /* side panel */
 .panel {
   width: var(--panel-w); flex: none; overflow: auto; background: var(--paper);
@@ -123,6 +142,8 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); }
 .prose p.li { padding-left: .2em; }
 .prose h4 { margin: 1.4em 0 .4em; font-size: 16px; }
 .note { font-size: 14px; color: var(--muted); }
+.note.corr { padding: 6px 10px; border-radius: 6px; background: var(--bg); }
+.linklike { border: 0; padding: 0; margin-left: 4px; background: none; color: var(--accent); font-size: inherit; text-decoration: underline; cursor: pointer; }
 .btn {
   display: inline-block; margin: 4px 0 16px; padding: 8px 16px; border-radius: 8px; background: var(--accent);
   color: #fff; text-decoration: none; font-weight: 500; border: 0; cursor: pointer;
@@ -179,6 +200,7 @@ table.emp { width: 100%; border-collapse: collapse; background: var(--paper); bo
   .panel-body { padding: 0 16px 32px; }
   .panel h2 { font-size: 22px; }
   .zoom { bottom: 80px; }
+  .legend { bottom: 80px; font-size: 11px; line-height: 1.7; }
   .crumbs { top: 8px; left: 8px; right: 8px; overflow-x: auto; white-space: nowrap; }
   .emp th, .emp td { padding: 6px 8px; font-size: 14px; }
 }

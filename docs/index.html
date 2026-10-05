@@ -30,6 +30,14 @@
     <div class="map-wrap">
       <div class="crumbs" id="crumbs"></div>
       <svg id="map" class="map" role="img" aria-label="지도"></svg>
+      <ul class="legend" id="legend" hidden aria-label="범례">
+        <li><svg viewBox="0 0 26 12"><circle cx="13" cy="6" r="4.5" fill="none" stroke="#b8452f" stroke-width="2"/></svg>성도(省都)</li>
+        <li><svg viewBox="0 0 26 12"><circle cx="13" cy="6" r="3.5" fill="#fffdf8" stroke="#3b2f28"/></svg>시(市)·현(縣)</li>
+        <li><svg viewBox="0 0 26 12"><path d="M2 6H24" stroke="#3b2f28" stroke-width="2.5"/></svg>성(省) 경계</li>
+        <li><svg viewBox="0 0 26 12"><path d="M2 6H24" stroke="#b8452f" stroke-width="2"/></svg>관도(大)</li>
+        <li><svg viewBox="0 0 26 12"><path d="M2 6H24" stroke="#d29a52" stroke-width="1.5"/></svg>관도(少)</li>
+        <li><svg viewBox="0 0 26 12"><path d="M2 7Q8 2 13 6T24 5" fill="none" stroke="#4a7aa6" stroke-width="1.5"/></svg>강(江)</li>
+      </ul>
       <div class="zoom">
         <button type="button" id="zin" aria-label="확대">+</button>
         <button type="button" id="zout" aria-label="축소">−</button>
