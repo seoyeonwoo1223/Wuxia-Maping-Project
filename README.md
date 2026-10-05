@@ -30,6 +30,17 @@ python tools/extract.py legacy/murim.swf docs
 - `docs/data/report.json` — 연결 통계와 사용되지 않은 텍스트 목록
 - 원작의 명승지 사진(JPEG)은 제3자 저작물로 보여 추출·사용하지 않음
 
+### 웹 사이트
+
+`docs/`가 빌드 없는 정적 사이트입니다 (바닐라 JS + 인라인 SVG, 글꼴은 Google Fonts의 Noto Sans KR / Noto Serif KR, OFL).
+
+```bash
+python -m http.server -d docs 8000   # http://localhost:8000
+```
+
+- 지도 이동·확대(드래그, 휠, 핀치), 지명·문파 검색, 설명 패널, 제왕연표, 주요지명, 원작 정보 페이지
+- 주소: `#/map/<성>`, `#/place/<id>`, `#/emperors/<id>`, `#/landmarks/<id>`, `#/about`
+
 ### 원본 뷰어 실행
 
 ```bash
