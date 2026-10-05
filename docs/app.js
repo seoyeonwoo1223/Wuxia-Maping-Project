@@ -16,7 +16,9 @@ const LIST_START = /^\s*([-–·•◆◇■□○●※*▶▷>]|\d+[.)]|[(（]
 function prose(text) {
   const out = [];
   for (const block of String(text || '').split(/\n\s*\n/)) {
-    const lines = block.split('\n').map(l => l.trim()).filter(Boolean);
+    // tidy stray blanks from the original layout: "a  b" -> "a b", "( x )" -> "(x)", "a ," -> "a,"
+    const lines = block.split('\n').map(l => l.trim().replace(/[ \t]{2,}/g, ' ').replace(/([(\[]) +/g, '$1')
+      .replace(/ +([)\],])/g, '$1')).filter(Boolean);
     const paras = [];
     for (const l of lines) {
       const prev = paras[paras.length - 1];
@@ -152,6 +154,8 @@ async function showMap(id) {
   const doc = await loadSvg(id);
   svg.replaceChildren(...[...doc.childNodes].map(n => document.importNode(n, true)));
   svg.setAttribute('aria-label', `${m.name} 지도`);
+  svg.classList.toggle('detail', id !== 'china');
+  $('#legend').hidden = id === 'china';
   state.mapId = id;
   fitBox = m.viewBox;
   if (id === 'china') decorateChina();
@@ -243,6 +247,20 @@ function renderCrumbs() {
 
 const panel = $('#panel');
 $('#grip').onclick = () => panel.classList.toggle('open');
+// corrected text by default; the original stays one click away
+let showOrig = false, rerender = null;
+const pageText = d => (showOrig && d.orig != null ? d.orig : d.text);
+function corrNote(pages) {
+  if (!pages.some(d => d.orig != null)) return '';
+  return `<p class="note corr">${showOrig ? '원작 원문을 보고 있습니다.' : '오탈자와 어색한 문장을 일부 다듬은 글입니다.'}
+    <button type="button" class="linklike" id="orig-toggle">${showOrig ? '다듬은 글 보기' : '원문 보기'}</button></p>`;
+}
+function bindCorrToggle(fn) {
+  rerender = fn;
+  const b = panel.querySelector('#orig-toggle');
+  if (b) b.onclick = () => { showOrig = !showOrig; rerender(); };
+}
+
 function setPanel(html, open = true) {
   $('#panel-body').innerHTML = html;
   panel.scrollTop = 0;
@@ -295,9 +313,11 @@ function panelProvince(p) {
     <h2>${nameHtml(p)}</h2>
     <div class="meta"><span class="chip k">성</span></div>
     ${state.mapId !== p.id ? `<a class="btn" href="#/map/${p.id}">상세 지도 보기</a>` : ''}
-    ${(p.description || []).map(d => prose(d.text)).join('')}
+    ${corrNote(p.description || [])}
+    ${(p.description || []).map(d => prose(pageText(d))).join('')}
     ${items.length ? `<div class="section-h">설명이 있는 곳 · ${items.length}</div>${placeList(items)}` : ''}
   `, state.mapId !== p.id);
+  bindCorrToggle(() => panelProvince(p));
 }
 
 function panelPlace(p) {
@@ -313,8 +333,9 @@ function panelPlace(p) {
     </div>
     ${p.supplement ? SUPPLEMENT_NOTE.replace('지역이라', '지역의 항목이라').replace(' 상세 지도도 없습니다', ' 지도 위치는 없습니다') : p.x == null ? `<p class="note">원작의 목록에만 있고 지도 위치가 없는 항목입니다.</p>` : ''}
     ${near && p.located === 'description' ? `<p class="note">지도 위치는 설명에 나오는 ‘${esc(near.name)}’ 기준의 대략적인 위치입니다.</p>` : ''}
+    ${corrNote(pages)}
     ${pages.length > 1 ? `<div class="pages-nav">${pages.map((d, i) => `<a class="chip" href="#pg${i}" data-pg="${i}">${esc(pageTitle(d.title, p))}</a>`).join('')}</div>` : ''}
-    ${pages.map((d, i) => `${pages.length > 1 ? `<div class="page-title" id="pg${i}">${esc(pageTitle(d.title, p))}</div>` : ''}${prose(d.text)}`).join('')}
+    ${pages.map((d, i) => `${pages.length > 1 ? `<div class="page-title" id="pg${i}">${esc(pageTitle(d.title, p))}</div>` : ''}${prose(pageText(d))}`).join('')}
     ${!pages.length ? `<p class="note">원작에 별도 설명이 없는 지명입니다.</p>` : ''}
     ${sameName.length ? `<div class="section-h">같은 이름</div>${placeList(sameName)}` : ''}
     ${p.supplement && prov && prov.extra ? sourcesHtml(prov.extra.sources) : ''}
@@ -322,6 +343,7 @@ function panelPlace(p) {
   for (const a of panel.querySelectorAll('[data-pg]')) {
     a.onclick = e => { e.preventDefault(); panel.querySelector('#pg' + a.dataset.pg).scrollIntoView({ behavior: 'smooth' }); };
   }
+  bindCorrToggle(() => panelPlace(p));
 }
 
 // "하남성(河南省) - 무림문파(武林門派) - 소림무공(少林武功) - 역근경(易筋經)" -> "소림무공 · 역근경(易筋經)"
@@ -395,7 +417,7 @@ function pageAbout() {
     </div>
     <div class="card">
       <h2 style="margin-top:0">이 사이트</h2>
-      <p>원본 SWF에서 벡터 지도와 텍스트를 추출해 정적 웹 페이지로 다시 만들었습니다. 원작의 명승지 사진(제3자 사진으로 보임)은 싣지 않았습니다. 원작에서 미완성이던 북경·천진·중경은 이 프로젝트에서 따로 쓴 보충 글을 ‘보충 자료’로 표시해 실었습니다. 글꼴: Noto Sans KR, Noto Serif KR (SIL Open Font License).</p>
+      <p>원본 SWF에서 벡터 지도와 텍스트를 추출해 정적 웹 페이지로 다시 만들었습니다. 원작의 명승지 사진(제3자 사진으로 보임)은 싣지 않았습니다. 원작에서 미완성이던 북경·천진·중경은 이 프로젝트에서 따로 쓴 보충 글을 ‘보충 자료’로 표시해 실었습니다. 원작 설명 글의 오탈자와 어색한 문장은 조금씩 다듬고 있으며, 설명 패널의 ‘원문 보기’로 원작 그대로의 글을 볼 수 있습니다. 글꼴: Noto Sans KR, Noto Serif KR (SIL Open Font License).</p>
       <p><a href="https://github.com/seoyeonwoo1223/Wuxia-Maping-Project" rel="noopener">소스 저장소</a></p>
     </div>
     <h2>원작자의 말</h2>
@@ -496,11 +518,18 @@ async function route() {
 }
 
 async function init() {
-  const [pl, emp, lm, ab, sup] = await Promise.all(
-    ['places', 'emperors', 'landmarks', 'about', 'supplement'].map(n => fetch(`data/${n}.json`).then(r => r.json())));
+  const [pl, emp, lm, ab, sup, corr] = await Promise.all(
+    ['places', 'emperors', 'landmarks', 'about', 'supplement', 'corrections'].map(n => fetch(`data/${n}.json`).then(r => r.json())));
   for (const m of pl.maps) state.maps[m.id] = m;
   state.places = pl.places;
   for (const p of pl.places) state.byId[p.id] = p;
+  // proofreading layer over the extracted text (tools/check_corrections.py validates it)
+  for (const ed of corr.edits) {
+    const pg = ((state.byId[ed.id] || {}).description || [])[ed.page];
+    if (!pg || pg.text.split(ed.find).length !== 2) { console.warn('correction not applied', ed); continue; }
+    if (pg.orig == null) pg.orig = pg.text;
+    pg.text = pg.text.replace(ed.find, () => ed.replace);
+  }
   // hand-written supplement for regions the original left unfinished (kept apart from extracted data)
   for (const [id, x] of Object.entries(sup.provinces)) {
     const p = state.byId[id];

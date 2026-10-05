@@ -3,6 +3,7 @@
 Only the tags used by legacy/murim.swf are decoded. Coordinates stay in twips (1/20 px).
 """
 import struct
+import unicodedata
 
 TAG_NAMES = {
     0: 'End', 1: 'ShowFrame', 2: 'DefineShape', 6: 'DefineBits', 8: 'JPEGTables', 9: 'SetBackgroundColor',
@@ -362,7 +363,8 @@ def parse_edit_text(body):
         t['align'] = br.u8()
         br.u16(); br.u16(); br.u16(); br.s16()
     t['var'] = br.cstr()
-    t['text'] = br.cstr() if f1 & 0x80 else ''
+    # CP949 maps some hanja to CJK compatibility ideographs (U+F900-); NFC folds them to the unified ones
+    t['text'] = unicodedata.normalize('NFC', br.cstr()) if f1 & 0x80 else ''
     return cid, t
 
 
