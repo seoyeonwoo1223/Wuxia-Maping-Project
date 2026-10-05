@@ -255,9 +255,9 @@ function corrNote(pages) {
   return `<p class="note corr">${showOrig ? '원작 원문을 보고 있습니다.' : '오탈자와 어색한 문장을 일부 다듬은 글입니다.'}
     <button type="button" class="linklike" id="orig-toggle">${showOrig ? '다듬은 글 보기' : '원문 보기'}</button></p>`;
 }
-function bindCorrToggle(fn) {
+function bindCorrToggle(fn, root = panel) {
   rerender = fn;
-  const b = panel.querySelector('#orig-toggle');
+  const b = root.querySelector('#orig-toggle');
   if (b) b.onclick = () => { showOrig = !showOrig; rerender(); };
 }
 
@@ -396,10 +396,12 @@ function pageLandmarks(id) {
     <div class="tabs">${state.landmarks.map(l => `<a href="#/landmarks/${l.id}" class="${l === cur ? 'on' : ''}">${esc(l.title)}</a>`).join('')}</div>
     <div class="card">
       <h2 style="margin-top:0">${esc(cur.title)}</h2>
-      ${prose(cur.text)}
+      ${corrNote([cur])}
+      ${prose(pageText(cur))}
       ${cur.links.length ? `<div class="section-h">지도에서 보기</div>${placeList(cur.links.map(i => state.byId[i]).filter(Boolean))}` : ''}
     </div>
   `);
+  bindCorrToggle(() => pageLandmarks(cur.id), page);
 }
 
 function pageAbout() {
@@ -529,8 +531,10 @@ async function init() {
   // proofreading layer over the extracted text (tools/check_corrections.py validates it)
   for (const ed of corr.edits) {
     const field = ed.field || 'text';
+    // ids are place ids, or landmark article ids (lm28…) whose text/title sit on the article itself
+    const article = lm.find(l => l.id === ed.id);
     const place = state.byId[ed.id];
-    const obj = field === 'name' || field === 'hanja' ? place : ((place || {}).description || [])[ed.page];
+    const obj = article || (field === 'name' || field === 'hanja' ? place : ((place || {}).description || [])[ed.page]);
     if (!obj || typeof obj[field] !== 'string' || obj[field].split(ed.find).length !== 2) { console.warn('correction not applied', ed); continue; }
     if (field === 'text' && obj.orig == null) obj.orig = obj.text;
     obj[field] = obj[field].replace(ed.find, () => ed.replace);

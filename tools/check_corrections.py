@@ -11,11 +11,22 @@ import json, sys
 root = sys.argv[1] if len(sys.argv) > 1 else 'docs'
 places = {p['id']: p for p in json.load(open(f'{root}/data/places.json', encoding='utf-8'))['places']}
 edits = json.load(open(f'{root}/data/corrections.json', encoding='utf-8'))['edits']
+# landmark articles (lm28…) carry text/title on the article itself
+articles = {a['id']: a for a in json.load(open(f'{root}/data/landmarks.json', encoding='utf-8'))}
 
 texts, bad = {}, 0
 for n, ed in enumerate(edits):
     p = places.get(ed['id'])
     field = ed.get('field', 'text')          # 'text' | 'title' (page fields) or 'name' | 'hanja' (place fields)
+    if ed['id'] in articles:
+        key, t = (ed['id'], field), articles[ed['id']][field]
+        t = texts.setdefault(key, t)
+        if t.count(ed['find']) != 1:
+            print(f'#{n} {ed["id"]}/{field}: find occurs {t.count(ed["find"])} times: {ed["find"][:40]!r}')
+            bad += 1
+        else:
+            texts[key] = t.replace(ed['find'], ed['replace'])
+        continue
     if p is None:
         print(f'#{n} {ed["id"]}: no such place')
         bad += 1
