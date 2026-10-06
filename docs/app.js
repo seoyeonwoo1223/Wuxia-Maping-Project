@@ -182,6 +182,7 @@ function decorateChina() {
 const labels = [];
 function buildLabels(mapId) {
   labels.length = 0;
+  placedScale = null;
   const items = state.places.filter(p => p.map === mapId && p.x != null && p.kind !== '성');
   for (const p of items) {
     const major = !!p.description;
@@ -205,6 +206,16 @@ function buildLabels(mapId) {
   }
 }
 
+// text widths at font-size 1, measured once per label (canvas, same font as the map labels)
+const measureCtx = document.createElement('canvas').getContext('2d');
+function textWidth(str, weight) {
+  measureCtx.font = `${weight} 100px "Noto Sans KR", sans-serif`;
+  return measureCtx.measureText(str).width / 100;
+}
+
+let placedScale = null;
+// once the web font arrives, widths change: measure again
+if (document.fonts) document.fonts.ready.then(() => { for (const L of labels) L.w = null; placedScale = null; if (view) updateLabels(); });
 function updateLabels() {
   if (!labelLayer) return;
   const s = scale();
@@ -213,17 +224,9 @@ function updateLabels() {
   for (const L of labels) {
     const { p, t, ring } = L;
     const fs = (L.major ? 13.5 : L.nb ? 12 : 11.5) / s;
+    L.fs = fs;
     t.setAttribute('font-size', fs.toFixed(3));
     t.setAttribute('stroke-width', (3 / s).toFixed(3));
-    if (L.nb) {
-      t.setAttribute('x', p.x); t.setAttribute('y', p.y);
-      t.setAttribute('text-anchor', 'middle');
-    } else {
-      const off = (L.major ? 9 : 5) / s;
-      t.setAttribute('x', L.left ? p.x - off : p.x + off);
-      t.setAttribute('y', p.y);
-      t.setAttribute('text-anchor', L.left ? 'end' : 'start');
-    }
     t.setAttribute('dominant-baseline', 'central');
     if (ring) {
       ring.setAttribute('cx', p.x); ring.setAttribute('cy', p.y);
@@ -233,6 +236,59 @@ function updateLabels() {
     const sel = state.selected === p.id;
     t.classList.toggle('sel', sel);
     if (ring) ring.classList.toggle('sel', sel);
+  }
+  // panning keeps the layout; only a zoom change (or a new selection) needs a fresh placement
+  const key = `${s.toFixed(4)}|${state.selected}`;
+  if (key !== placedScale) { placedScale = key; placeLabels(s); }
+}
+
+// Greedy label placement: important labels first, each takes the first of right / left / above / below
+// that hits neither an already placed label nor another city dot. Minor labels with no room are hidden.
+function placeLabels(s) {
+  const showHanja = s >= 1.8, showMinor = s >= 0.95;
+  const boxes = [];
+  const dot = 4 / s, pad = 1.5 / s;
+  const dots = labels.filter(L => !L.nb).map(L => [L.p.x - dot, L.p.y - dot, L.p.x + dot, L.p.y + dot, L]);
+  const hit = (b, self) => boxes.some(o => b[0] < o[2] && b[2] > o[0] && b[1] < o[3] && b[3] > o[1])
+    || dots.some(d => d[4] !== self && b[0] < d[2] && b[2] > d[0] && b[1] < d[3] && b[3] > d[1]);
+  const rank = L => (state.selected === L.p.id ? 0 : L.major ? 1 : L.nb ? 3 : 2);
+  const order = labels.slice().sort((a, b) => rank(a) - rank(b));
+  for (const L of order) {
+    const { p, t } = L;
+    const visible = !(L.minorHidden = !L.major && !L.nb && !showMinor);
+    if (!visible) { t.style.display = ''; continue; }
+    if (L.w == null) {
+      const w8 = L.major ? 700 : 400;
+      L.w = textWidth(p.name, w8);
+      L.wh = p.hanja && !L.nb ? textWidth(' ' + p.hanja, 400) : 0;
+    }
+    const fs = L.fs, w = (L.w + (showHanja ? L.wh : 0)) * fs, h = fs * 1.15;
+    let cands;
+    if (L.nb) {
+      cands = [['middle', p.x, p.y]];
+    } else {
+      const off = (L.major ? 9 : 5) / s;
+      const right = ['start', p.x + off, p.y], left = ['end', p.x - off, p.y];
+      cands = [...(L.left ? [left, right] : [right, left]),
+        ['middle', p.x, p.y - off - h / 2], ['middle', p.x, p.y + off + h / 2]];
+    }
+    let chosen = null;
+    for (const c of cands) {
+      const [anchor, x, y] = c;
+      const x0 = anchor === 'start' ? x : anchor === 'end' ? x - w : x - w / 2;
+      const b = [x0 - pad, y - h / 2 - pad, x0 + w + pad, y + h / 2 + pad];
+      if (!hit(b, L)) { chosen = [c, b]; break; }
+    }
+    if (!chosen && (L.major || L.nb || rank(L) === 0)) {
+      const c = cands[0], [anchor, x, y] = c;
+      const x0 = anchor === 'start' ? x : anchor === 'end' ? x - w : x - w / 2;
+      chosen = [c, [x0, y - h / 2, x0 + w, y + h / 2]];
+    }
+    if (!chosen) { t.style.display = 'none'; continue; }
+    t.style.display = '';
+    const [[anchor, x, y], b] = chosen;
+    t.setAttribute('x', x); t.setAttribute('y', y); t.setAttribute('text-anchor', anchor);
+    boxes.push(b);
   }
 }
 
