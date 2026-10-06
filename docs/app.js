@@ -56,10 +56,15 @@ function scale() { // screen px per map unit
 }
 function fit(box = fitBox) {
   const r = svg.getBoundingClientRect();
-  const ar = r.width / r.height || 1;
-  let w = box[2], h = box[3];
-  if (w / h > ar) h = w / ar; else w = h * ar;
-  setView({ x: box[0] - (w - box[2]) / 2, y: box[1] - (h - box[3]) / 2, w, h });
+  if (!r.width || !r.height) return;
+  // on phones keep the map clear of the breadcrumb bar on top and the collapsed sheet below
+  const top = isPhone() ? 52 : 0, bottom = isPhone() ? 72 : 0;
+  const avail = Math.max(r.height - top - bottom, r.height / 2);
+  const s = Math.min(r.width / box[2], avail / box[3]);
+  const w = r.width / s, h = r.height / s;
+  // phones: pin the map to the top of the free area instead of centring it in a tall screen
+  const slack = isPhone() ? 0 : (avail / s - box[3]) / 2;
+  setView({ x: box[0] - (w - box[2]) / 2, y: box[1] - top / s - slack, w, h });
 }
 function clientToMap(cx, cy) {
   const r = svg.getBoundingClientRect(), s = scale();
@@ -134,6 +139,11 @@ svg.addEventListener('click', e => { if (moved > 6) { e.stopPropagation(); e.pre
 $('#zin').onclick = () => zoomCenter(1.5);
 $('#zout').onclick = () => zoomCenter(1 / 1.5);
 $('#zfit').onclick = () => fit();
+$('#legend-toggle').onclick = e => {
+  const open = $('#legend').classList.toggle('open');
+  e.currentTarget.setAttribute('aria-expanded', open);
+  e.currentTarget.textContent = open ? '범례 ▴' : '범례 ▾';
+};
 window.addEventListener('resize', () => { if (view && state.mapId) { const c = { x: view.x + view.w / 2, y: view.y + view.h / 2 }; const s = scale(); setView(view); centerOn(c.x, c.y, s); } });
 
 /* ------------------------------------------------------------------ map: content */
@@ -162,20 +172,48 @@ async function showMap(id) {
   labelLayer = document.createElementNS(SVGNS, 'g');
   labelLayer.setAttribute('class', 'labels');
   svg.appendChild(labelLayer);
+  if (id === 'china') buildProvLabels();
   buildLabels(id);
   fit();
   renderCrumbs();
 }
 
+// province names on the national map: the original white glyphs are replaced by text in the site font,
+// drawn at the glyphs' centre so they keep a constant on-screen size while zooming
+const provLabels = [];
+const PROV_LABEL_POS = { // a few labels that the tiny regions cannot hold: [anchor, dx, dy] in screen px
+  shanghai: ['start', 10, 0], tianjin: ['start', 10, 4], beijing: ['middle', 4, -14],
+};
 function decorateChina() {
+  provLabels.length = 0;
+  const toMap = svg.getScreenCTM().inverse();
   for (const g of svg.querySelectorAll('.province')) {
     const p = state.byId[g.dataset.id];
     if (!p) continue;
+    const glyph = g.querySelector('[fill="#ffffff"]');
+    if (glyph) {
+      const b = glyph.getBBox(), m = toMap.multiply(glyph.getScreenCTM());
+      const c = new DOMPoint(b.x + b.width / 2, b.y + b.height / 2).matrixTransform(m);
+      glyph.remove();
+      provLabels.push({ p, x: c.x, y: c.y, name: p.name.replace(/(회족자치구|자치구|성|시)$/, ''), light: !p.detail_map });
+    }
     if (!p.detail_map) g.classList.add(p.extra ? 'extra' : 'todo');
     const t = document.createElementNS(SVGNS, 'title');
     t.textContent = p.name + (p.detail_map ? '' : p.extra ? ' (보충 자료)' : ' (원작 미완성)');
     g.prepend(t);
     g.addEventListener('click', () => go(`#/place/${p.id}`));
+  }
+}
+
+function buildProvLabels() {
+  for (const L of provLabels) {
+    const t = document.createElementNS(SVGNS, 'text');
+    t.setAttribute('class', `plbl${L.light ? ' light' : ''}`);
+    t.setAttribute('dominant-baseline', 'central');
+    t.textContent = L.name;
+    t.addEventListener('click', e => { e.stopPropagation(); go(`#/place/${L.p.id}`); });
+    labelLayer.appendChild(t);
+    L.t = t;
   }
 }
 
@@ -219,6 +257,15 @@ if (document.fonts) document.fonts.ready.then(() => { for (const L of labels) L.
 function updateLabels() {
   if (!labelLayer) return;
   const s = scale();
+  if (state.mapId === 'china') for (const L of provLabels) {
+    if (!L.t) continue;
+    const [anchor, dx, dy] = PROV_LABEL_POS[L.p.id] || ['middle', 0, 0];
+    const fs = Math.min(15, Math.max(10.5, 13 * s)) / s;
+    L.t.setAttribute('x', L.x + dx / s); L.t.setAttribute('y', L.y + dy / s);
+    L.t.setAttribute('text-anchor', anchor);
+    L.t.setAttribute('font-size', fs.toFixed(3));
+    L.t.setAttribute('stroke-width', (2.5 / s).toFixed(3));
+  }
   svg.classList.toggle('hide-minor', s < 0.95);
   svg.classList.toggle('hide-hanja', s < 1.8);
   for (const L of labels) {

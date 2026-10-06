@@ -94,6 +94,8 @@ main { height: calc(100% - var(--top-h)); }
 .map .province:hover path[fill="#ff0000"], .map .province.on path[fill="#ff0000"] { fill: var(--province-hover); }
 .map .province.todo path[fill="#ff0000"] { fill: #c9b8a6; }
 .map .province.extra path[fill="#ff0000"] { fill: #b39a80; }
+.plbl { font-family: "Noto Sans KR", sans-serif; font-weight: 700; fill: #fffdf8; paint-order: stroke; stroke: #5b4332; stroke-linejoin: round; cursor: pointer; letter-spacing: .02em; }
+.plbl.light { fill: #3b2f28; stroke: #fffdf8; }
 .lbl { font-family: "Noto Sans KR", sans-serif; paint-order: stroke; stroke: #fffdf8; stroke-linejoin: round; fill: #3a302a; cursor: pointer; }
 .lbl.minor { fill: #4a4038; }
 .lbl.major { font-weight: 700; fill: #8c2a1c; }
@@ -126,6 +128,7 @@ main { height: calc(100% - var(--top-h)); }
   font-size: 12px; line-height: 1.9; color: #3a302a; box-shadow: 0 1px 4px rgba(60, 40, 20, .1);
 }
 .legend[hidden] { display: none; }
+.legend .legend-toggle { display: none; }
 .legend li { display: flex; align-items: center; gap: 8px; }
 .legend svg { width: 26px; height: 12px; flex: none; }
 
@@ -206,7 +209,10 @@ table.emp { width: 100%; border-collapse: collapse; background: var(--paper); bo
   .panel-body { padding: 0 16px 32px; }
   .panel h2 { font-size: 22px; }
   .zoom { bottom: 80px; }
-  .legend { bottom: 80px; font-size: 11px; line-height: 1.7; }
+  .legend { bottom: 80px; font-size: 11px; line-height: 1.7; padding: 4px 10px; }
+  .legend .legend-toggle { display: block; }
+  .legend-toggle button { border: 0; padding: 2px 0; background: none; color: inherit; font-size: 12px; font-weight: 500; cursor: pointer; }
+  .legend:not(.open) li:not(.legend-toggle) { display: none; }
   .crumbs { top: 8px; left: 8px; right: 8px; overflow-x: auto; white-space: nowrap; }
   .emp th, .emp td { padding: 6px 8px; font-size: 14px; }
 }
