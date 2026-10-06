@@ -67,6 +67,141 @@
    ]
   }
  ],
+ "leader_lines": {
+  "gansu": {
+   "lines": 0,
+   "labels_moved": 0
+  },
+  "jiangxi": {
+   "lines": 0,
+   "labels_moved": 0
+  },
+  "jiangsu": {
+   "lines": 0,
+   "labels_moved": 0
+  },
+  "guangdong": {
+   "lines": 0,
+   "labels_moved": 0
+  },
+  "guangxi": {
+   "lines": 0,
+   "labels_moved": 0
+  },
+  "guizhou": {
+   "lines": 0,
+   "labels_moved": 0
+  },
+  "jilin": {
+   "lines": 0,
+   "labels_moved": 0
+  },
+  "neimenggu": {
+   "lines": 0,
+   "labels_moved": 0
+  },
+  "ningxia": {
+   "lines": 0,
+   "labels_moved": 0
+  },
+  "fujian": {
+   "lines": 0,
+   "labels_moved": 0
+  },
+  "sichuan": {
+   "lines": 0,
+   "labels_moved": 0
+  },
+  "shandong": {
+   "lines": 0,
+   "labels_moved": 0
+  },
+  "shanxi": {
+   "lines": 0,
+   "labels_moved": 0
+  },
+  "xizang": {
+   "lines": 0,
+   "labels_moved": 0
+  },
+  "shaanxi": {
+   "lines": 0,
+   "labels_moved": 0
+  },
+  "xinjiang": {
+   "lines": 0,
+   "labels_moved": 0
+  },
+  "anhui": {
+   "lines": 0,
+   "labels_moved": 0
+  },
+  "liaoning": {
+   "lines": 0,
+   "labels_moved": 0
+  },
+  "yunnan": {
+   "lines": 0,
+   "labels_moved": 0
+  },
+  "zhejiang": {
+   "lines": 0,
+   "labels_moved": 0
+  },
+  "qinghai": {
+   "lines": 0,
+   "labels_moved": 0
+  },
+  "henan": {
+   "lines": 0,
+   "labels_moved": 0
+  },
+  "hebei": {
+   "lines": 46,
+   "labels_moved": 45
+  },
+  "hunan": {
+   "lines": 0,
+   "labels_moved": 0
+  },
+  "hubei": {
+   "lines": 0,
+   "labels_moved": 0
+  },
+  "heilongjiang": {
+   "lines": 0,
+   "labels_moved": 0
+  },
+  "hainan": {
+   "lines": 0,
+   "labels_moved": 0
+  }
+ },
+ "leader_unmatched": [
+  {
+   "map": "hebei",
+   "ends": [
+    [
+     -196.7,
+     162.5
+    ],
+    [
+     -408.8,
+     212.5
+    ]
+   ],
+   "nearest_labels": [
+    [
+     "신악(新樂)",
+     17
+    ],
+    [
+     "안평(安平)",
+     20
+    ]
+   ]
+  }
+ ],
  "unused_by_category": {
   "ui_button": 130,
   "ui_other": 69,
@@ -76,11 +211,11 @@
  "places_total": 1374,
  "kinds": {
   "성": 31,
-  "도시": 1016,
-  "명승지": 72,
-  "인접 지역": 117,
+  "도시": 1058,
+  "명승지": 71,
+  "인접 지역": 118,
   "성도": 27,
-  "지명": 97,
+  "지명": 55,
   "문파": 14
  },
  "with_description": 120,

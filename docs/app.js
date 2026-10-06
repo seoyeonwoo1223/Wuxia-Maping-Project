@@ -255,9 +255,9 @@ function corrNote(pages) {
   return `<p class="note corr">${showOrig ? '원작 원문을 보고 있습니다.' : '오탈자와 어색한 문장을 일부 다듬은 글입니다.'}
     <button type="button" class="linklike" id="orig-toggle">${showOrig ? '다듬은 글 보기' : '원문 보기'}</button></p>`;
 }
-function bindCorrToggle(fn) {
+function bindCorrToggle(fn, root = panel) {
   rerender = fn;
-  const b = panel.querySelector('#orig-toggle');
+  const b = root.querySelector('#orig-toggle');
   if (b) b.onclick = () => { showOrig = !showOrig; rerender(); };
 }
 
@@ -325,6 +325,9 @@ function panelPlace(p) {
   const pages = p.description || [];
   const near = p.near && state.byId[p.near];
   const sameName = state.places.filter(q => q !== p && q.description && q.name === p.name && q.kind !== '인접 지역');
+  // pages that share a title in the original (e.g. 화산파 1/2) get a running number
+  const raw = pages.map(d => pageTitle(d.title, p));
+  const titles = raw.map((t, i) => (raw.filter(x => x === t).length > 1 ? `${t} ${raw.slice(0, i + 1).filter(x => x === t).length}` : t));
   setPanel(`
     <h2>${nameHtml(p)}</h2>
     <div class="meta">
@@ -334,8 +337,8 @@ function panelPlace(p) {
     ${p.supplement ? SUPPLEMENT_NOTE.replace('지역이라', '지역의 항목이라').replace(' 상세 지도도 없습니다', ' 지도 위치는 없습니다') : p.x == null ? `<p class="note">원작의 목록에만 있고 지도 위치가 없는 항목입니다.</p>` : ''}
     ${near && p.located === 'description' ? `<p class="note">지도 위치는 설명에 나오는 ‘${esc(near.name)}’ 기준의 대략적인 위치입니다.</p>` : ''}
     ${corrNote(pages)}
-    ${pages.length > 1 ? `<div class="pages-nav">${pages.map((d, i) => `<a class="chip" href="#pg${i}" data-pg="${i}">${esc(pageTitle(d.title, p))}</a>`).join('')}</div>` : ''}
-    ${pages.map((d, i) => `${pages.length > 1 ? `<div class="page-title" id="pg${i}">${esc(pageTitle(d.title, p))}</div>` : ''}${prose(pageText(d))}`).join('')}
+    ${pages.length > 1 ? `<div class="pages-nav">${pages.map((d, i) => `<a class="chip" href="#pg${i}" data-pg="${i}">${esc(titles[i])}</a>`).join('')}</div>` : ''}
+    ${pages.map((d, i) => `${pages.length > 1 ? `<div class="page-title" id="pg${i}">${esc(titles[i])}</div>` : ''}${prose(pageText(d))}`).join('')}
     ${!pages.length ? `<p class="note">원작에 별도 설명이 없는 지명입니다.</p>` : ''}
     ${sameName.length ? `<div class="section-h">같은 이름</div>${placeList(sameName)}` : ''}
     ${p.supplement && prov && prov.extra ? sourcesHtml(prov.extra.sources) : ''}
@@ -393,10 +396,12 @@ function pageLandmarks(id) {
     <div class="tabs">${state.landmarks.map(l => `<a href="#/landmarks/${l.id}" class="${l === cur ? 'on' : ''}">${esc(l.title)}</a>`).join('')}</div>
     <div class="card">
       <h2 style="margin-top:0">${esc(cur.title)}</h2>
-      ${prose(cur.text)}
+      ${corrNote([cur])}
+      ${prose(pageText(cur))}
       ${cur.links.length ? `<div class="section-h">지도에서 보기</div>${placeList(cur.links.map(i => state.byId[i]).filter(Boolean))}` : ''}
     </div>
   `);
+  bindCorrToggle(() => pageLandmarks(cur.id), page);
 }
 
 function pageAbout() {
@@ -525,10 +530,14 @@ async function init() {
   for (const p of pl.places) state.byId[p.id] = p;
   // proofreading layer over the extracted text (tools/check_corrections.py validates it)
   for (const ed of corr.edits) {
-    const pg = ((state.byId[ed.id] || {}).description || [])[ed.page];
-    if (!pg || pg.text.split(ed.find).length !== 2) { console.warn('correction not applied', ed); continue; }
-    if (pg.orig == null) pg.orig = pg.text;
-    pg.text = pg.text.replace(ed.find, () => ed.replace);
+    const field = ed.field || 'text';
+    // ids are place ids, or landmark article ids (lm28…) whose text/title sit on the article itself
+    const article = lm.find(l => l.id === ed.id);
+    const place = state.byId[ed.id];
+    const obj = article || (field === 'name' || field === 'hanja' ? place : ((place || {}).description || [])[ed.page]);
+    if (!obj || typeof obj[field] !== 'string' || obj[field].split(ed.find).length !== 2) { console.warn('correction not applied', ed); continue; }
+    if (field === 'text' && obj.orig == null) obj.orig = obj.text;
+    obj[field] = obj[field].replace(ed.find, () => ed.replace);
   }
   // hand-written supplement for regions the original left unfinished (kept apart from extracted data)
   for (const [id, x] of Object.entries(sup.provinces)) {
