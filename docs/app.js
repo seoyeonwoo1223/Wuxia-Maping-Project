@@ -423,6 +423,7 @@ function showPage(html) {
   page.scrollTop = 0;
 }
 
+let empOrig = false;
 function pageEmperors(id) {
   const list = state.emperors;
   const cur = list.find(d => d.id === id) || list[0];
@@ -430,18 +431,21 @@ function pageEmperors(id) {
   const subs = list.filter(d => d.parent === '남북조');
   const tab = (d, cls = '') => `<a href="#/emperors/${d.id}" class="${cls}${d === cur ? ' on' : ''}">${esc(d.name)}${d.hanja ? ` ${esc(d.hanja)}` : ''}</a>`;
   let rows = '', grp = null;
-  for (const r of cur.rows) {
+  const fixed = cur.rows !== cur.orig;
+  for (const r of (fixed && empOrig ? cur.orig : cur.rows)) {
     if (r.group && r.group !== grp) { grp = r.group; rows += `<tr class="grp"><td colspan="3">${esc(grp)}</td></tr>`; }
     rows += `<tr><td>${esc(r.name || '—')}${r.hanja ? `<span class="hj">${esc(r.hanja)}</span>` : ''}</td><td class="y">${esc(r.start || '')}</td><td class="y">${esc(r.end || '')}</td></tr>`;
   }
   showPage(`
     <h1>제왕연표<span class="hj">帝王年表</span></h1>
-    <p class="lead">주(周)부터 청(淸)까지 왕조별 제왕과 재위 기간. 원작의 표를 그대로 옮겼으며, 원본에서 깨져 있던 글자는 ‘?’로 남겨 두었습니다.</p>
+    <p class="lead">주(周)부터 청(淸)까지 왕조별 제왕과 재위 기간. 원작의 표를 옮기면서 깨진 글자와 오기를 바로잡았으며, 원작 표는 각 왕조의 [원문보기]로 볼 수 있습니다.</p>
     <div class="tabs">${tops.map(d => tab(d)).join('')}</div>
     ${subs.length ? `<div class="tabs"><span class="note">남북조:</span>${subs.map(d => tab(d, 'sub')).join('')}</div>` : ''}
-    <h2>${esc(cur.name)}${cur.hanja ? `<span class="hj">${esc(cur.hanja)}</span>` : ''}${cur.period ? ` <span class="note">(${esc(cur.period)})</span>` : ''}</h2>
+    <h2>${esc(cur.name)}${cur.hanja ? `<span class="hj">${esc(cur.hanja)}</span>` : ''}${cur.period ? ` <span class="note">(${esc(cur.period)})</span>` : ''}${fixed ? ` <button class="linklike orig-small" id="emp-orig">[${empOrig ? '교정본 보기' : '원문보기'}]</button>` : ''}</h2>
     <table class="emp"><thead><tr><th>제왕</th><th>즉위</th><th>퇴위</th></tr></thead><tbody>${rows}</tbody></table>
   `);
+  const b = $('#emp-orig');
+  if (b) b.onclick = () => { empOrig = !empOrig; pageEmperors(cur.id); };
 }
 
 function pageLandmarks(id) {
@@ -606,6 +610,18 @@ async function init() {
     const p = { ...x, map: 'china', x: null, y: null, supplement: true };
     state.places.push(p); state.byId[p.id] = p;
   }
+  // emperor table fixes: rows addressed by their index in the original dynasty table
+  for (const d of emp) d.orig = d.rows;
+  for (const ed of corr.emperors || []) {
+    const d = emp.find(x => x.id === ed.dyn);
+    if (!d) { console.warn('emperor correction not applied', ed); continue; }
+    if (d.rows === d.orig) d.rows = d.orig.map(r => ({ ...r }));
+    if (ed.append) { d.rows.push(...ed.append.map(r => ({ ...r, added: true }))); continue; }
+    const r = d.rows[ed.row];
+    if (!r || d.orig[ed.row].name !== ed.expect) { console.warn('emperor correction not applied', ed); continue; }
+    if (ed.delete) r.deleted = true; else Object.assign(r, ed.set);
+  }
+  for (const d of emp) d.rows = d.rows.filter(r => !r.deleted);
   state.emperors = emp; state.landmarks = lm; state.about = ab;
   window.addEventListener('hashchange', route);
   route();

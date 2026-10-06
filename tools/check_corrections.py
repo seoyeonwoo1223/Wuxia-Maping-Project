@@ -2,6 +2,7 @@
 
 Every edit's `find` must occur exactly once in its page text at the moment it is applied
 (edits for the same field apply in file order, as the site does).
+`emperors` entries fix the 제왕연표 rows by original row index.
 `field` defaults to the page text; 'title' fixes the page title, 'name'/'hanja' the place itself. Exit code 1 on any problem.
 
     python tools/check_corrections.py [docs]
@@ -48,5 +49,17 @@ for n, ed in enumerate(edits):
         continue
     texts[key] = t.replace(ed['find'], ed['replace'])
 
-print(f'{len(edits)} edits, {len(texts)} pages, {bad} problems')
+# emperor table fixes: `row` indexes the original dynasty table and `expect` must be that row's name
+dyns = {d['id']: d for d in json.load(open(f'{root}/data/emperors.json', encoding='utf-8'))}
+emp_edits = json.load(open(f'{root}/data/corrections.json', encoding='utf-8')).get('emperors', [])
+for n, ed in enumerate(emp_edits):
+    d = dyns.get(ed['dyn'])
+    if d is None:
+        print(f'emperors #{n}: no such dynasty {ed["dyn"]}')
+        bad += 1
+    elif 'append' not in ed and (ed['row'] >= len(d['rows']) or d['rows'][ed['row']]['name'] != ed['expect']):
+        print(f'emperors #{n} {ed["dyn"]}: row {ed["row"]} is not {ed["expect"]!r}')
+        bad += 1
+
+print(f'{len(edits)} edits, {len(texts)} pages, {len(emp_edits)} emperor fixes, {bad} problems')
 sys.exit(1 if bad else 0)

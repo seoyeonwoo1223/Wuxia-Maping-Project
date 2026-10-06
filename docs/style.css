@@ -149,6 +149,7 @@ a.chip:hover { border-color: var(--accent); color: var(--accent); }
 .note { font-size: 14px; color: var(--muted); }
 .note.corr { padding: 6px 10px; border-radius: 6px; background: var(--bg); }
 .linklike { border: 0; padding: 0; margin-left: 4px; background: none; color: var(--accent); font-size: inherit; text-decoration: underline; cursor: pointer; }
+.linklike.orig-small { font-size: 12px; font-weight: 400; text-decoration: none; vertical-align: middle; }
 .btn {
   display: inline-block; margin: 4px 0 16px; padding: 8px 16px; border-radius: 8px; background: var(--accent);
   color: #fff; text-decoration: none; font-weight: 500; border: 0; cursor: pointer;
