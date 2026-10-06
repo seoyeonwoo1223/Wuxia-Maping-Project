@@ -457,6 +457,7 @@ function pageLandmarks(id) {
     <div class="card">
       <h2 style="margin-top:0">${esc(cur.title)}${cur.orig != null ? ` <button type="button" class="linklike orig-small" id="orig-toggle">[${showOrig ? '교정본 보기' : '원문보기'}]</button>` : ''}</h2>
       ${prose(pageText(cur))}
+      ${cur.extra ? `<div class="section-h">보충 자료</div><p class="note">원작에는 ‘자료 수집 중’으로 남아 있던 항목이라, 위키백과를 바탕으로 이 프로젝트에서 보충한 글입니다.</p>${prose(cur.extra.text)}${sourcesHtml(cur.extra.sources)}` : ''}
       ${cur.links.length ? `<div class="section-h">지도에서 보기</div>${placeList(cur.links.map(i => state.byId[i]).filter(Boolean))}` : ''}
     </div>
   `);
@@ -621,6 +622,10 @@ async function init() {
     if (ed.delete) r.deleted = true; else Object.assign(r, ed.set);
   }
   for (const d of emp) d.rows = d.rows.filter(r => !r.deleted);
+  for (const [id, x] of Object.entries(sup.landmarks || {})) {
+    const l = lm.find(a => a.id === id);
+    if (l) l.extra = x;
+  }
   state.emperors = emp; state.landmarks = lm; state.about = ab;
   window.addEventListener('hashchange', route);
   route();
