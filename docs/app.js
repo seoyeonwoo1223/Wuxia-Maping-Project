@@ -452,11 +452,10 @@ function pageLandmarks(id) {
   const cur = state.landmarks.find(l => l.id === id) || state.landmarks[0];
   showPage(`
     <h1>주요지명<span class="hj">主要地名</span></h1>
-    <p class="lead">원작의 ‘주요지명’ 항목. 원작에 실린 명승지 사진은 출처가 확인되지 않아 싣지 않았습니다.</p>
+    <p class="lead">원작의 ‘주요지명’ 항목. 원작에 실린 명승지 사진은 출처가 확인되지 않아 싣지 않았습니다. 깨진 글자와 오탈자를 바로잡았으며, 원작 글은 [원문보기]로 볼 수 있습니다.</p>
     <div class="tabs">${state.landmarks.map(l => `<a href="#/landmarks/${l.id}" class="${l === cur ? 'on' : ''}">${esc(l.title)}</a>`).join('')}</div>
     <div class="card">
-      <h2 style="margin-top:0">${esc(cur.title)}</h2>
-      ${corrNote([cur])}
+      <h2 style="margin-top:0">${esc(cur.title)}${cur.orig != null ? ` <button type="button" class="linklike orig-small" id="orig-toggle">[${showOrig ? '교정본 보기' : '원문보기'}]</button>` : ''}</h2>
       ${prose(pageText(cur))}
       ${cur.links.length ? `<div class="section-h">지도에서 보기</div>${placeList(cur.links.map(i => state.byId[i]).filter(Boolean))}` : ''}
     </div>
