@@ -205,8 +205,6 @@ def province(swf, name, root_frame, out, report):
             return True
         return kind == 'button' and in_panel(char_bounds(swf, cid, place.get('matrix', IDENTITY)))
 
-    vb = write_svg(f'{out}/maps/{pid}.svg', swf, base, skip, lambda m, path: not in_panel(path_bounds(m, path)))
-
     # --- labels and markers on the map
     markers = []
     for d, p in base.items():
@@ -227,6 +225,58 @@ def province(swf, name, root_frame, out, report):
             continue
         labels.append({'cid': p['id'], 'raw': raw, 'box': b, 'depth': d})
 
+    # dotted leader lines (하북): red/blue paths made only of small dots, linking a label in the margin
+    # to its city dot. They are dropped from the SVG and used to move the label next to its city.
+    # A dotted path can sit inside a bigger shape and hold several lines, so dots are clustered.
+    leader_paths, leaders = set(), []
+
+    def shape_paths_deep(display, mat):
+        # (path, matrix) for every shape reachable from a display list, through sprites and buttons
+        for p in display.values():
+            if 'id' not in p:
+                continue
+            kind, v = swf.chars[p['id']]
+            m = mat_mul(mat, p.get('matrix', IDENTITY))
+            if kind == 'shape':
+                yield from ((q, m) for q in v['paths'])
+            elif kind == 'sprite' and v.frames:
+                yield from shape_paths_deep(v.frames[0]['display'], m)
+            elif kind == 'button':
+                for r in v['records']:
+                    if r['states'] & 1 and swf.chars[r['id']][0] == 'shape':
+                        yield from ((q, mat_mul(m, r['matrix'])) for q in swf.chars[r['id']][1]['paths'])
+
+    for q, m in shape_paths_deep(base, IDENTITY):
+        if True:
+            f = q.get('fill') or {}
+            if f.get('type') != 'solid' or tuple(f['color'][:3]) not in ((255, 0, 0), (0, 0, 255)):
+                continue
+            boxes = [path_bounds(m, {'d': sub}) for sub in re.findall(r'M[^M]*', q['d'])]
+            sizes = sorted(max(bb[2] - bb[0], bb[3] - bb[1]) for bb in boxes)
+            if len(boxes) < 8 or sizes[len(sizes) // 2] > 60 or sizes[-1] > 250:
+                continue
+            leader_paths.add(id(q))
+            dots = [center(bb) for bb in boxes]
+            # single-link clustering: dots of one line are a few dot-widths apart
+            gap = 4 * sorted(min(((x - x2) ** 2 + (y - y2) ** 2) ** .5 for j, (x2, y2) in enumerate(dots) if j != i)
+                             for i, (x, y) in enumerate(dots))[len(dots) // 2]
+            todo = set(range(len(dots)))
+            while todo:
+                stack, group = [todo.pop()], []
+                while stack:
+                    i = stack.pop()
+                    group.append(dots[i])
+                    near = {j for j in todo if (dots[i][0] - dots[j][0]) ** 2 + (dots[i][1] - dots[j][1]) ** 2 <= gap * gap}
+                    todo -= near
+                    stack += near
+                if len(group) >= 4:
+                    # the two ends of the dotted line = the farthest-apart pair of dots
+                    leaders.append(max(((u, v) for u in group for v in group),
+                                       key=lambda e: (e[0][0] - e[1][0]) ** 2 + (e[0][1] - e[1][1]) ** 2))
+
+    vb = write_svg(f'{out}/maps/{pid}.svg', swf, base, skip,
+                   lambda m, path: id(path) not in leader_paths and not in_panel(path_bounds(m, path)))
+
     # greedy label <-> marker assignment
     pairs = sorted((box_dist(l['box'], mx, my), li, mi)
                    for li, l in enumerate(labels) for mi, (mx, my) in enumerate(markers))
@@ -237,6 +287,54 @@ def province(swf, name, root_frame, out, report):
         if li in lab_m or mi in mk_l:
             continue
         lab_m[li], mk_l[mi] = mi, li
+
+    # follow each leader line. In the original the dotted line runs along the bottom edge of its label,
+    # so an end is paired with the label whose bottom edge it touches (this beats a coincidental
+    # nearby city dot); the other end goes to the nearest free city dot.
+    def under_label(box, pt):
+        gx = max(box[0] - pt[0], 0, pt[0] - box[2] - 800)
+        return abs(pt[1] - box[3]) + gx
+    via_leader = set()
+    ends = sorted((under_label(labels[li]['box'], leaders[k][e]), k, li, e)
+                  for k in range(len(leaders)) for li in range(len(labels)) for e in (0, 1))
+    line_of = {}                             # leader -> (label, far end), decided before any city dot
+    for dist, k, li, e in ends:
+        if dist > 200:
+            break
+        if k in line_of or li in {v[0] for v in line_of.values()}:
+            continue
+        line_of[k] = (li, leaders[k][1 - e])
+    for li, _ in line_of.values():          # the leader line beats a coincidental nearby city dot
+        if li in lab_m:
+            del mk_l[lab_m.pop(li)]
+    pairs = sorted((((mx - far[0]) ** 2 + (my - far[1]) ** 2) ** .5, k, mi)
+                   for k, (li, far) in line_of.items() for mi, (mx, my) in enumerate(markers))
+    used, displaced = set(), []
+    for dist, k, mi in pairs:
+        if dist > 900:
+            break
+        li = line_of[k][0]
+        if k in used:
+            continue
+        if mi in mk_l:
+            # a dot right under a line end belongs to that line, even if a label happened to sit next to it
+            if dist > 300 or mk_l[mi] in via_leader:
+                continue
+            displaced.append(mk_l[mi])
+            del lab_m[mk_l.pop(mi)]
+        used.add(k)
+        lab_m[li], mk_l[mi] = mi, li
+        via_leader.add(li)
+    for li in displaced:                     # let a bumped label take its next free dot, if any
+        cand = sorted((box_dist(labels[li]['box'], mx, my), mi) for mi, (mx, my) in enumerate(markers) if mi not in mk_l)
+        if cand and cand[0][0] <= CITY_MARKER_MAX:
+            lab_m[li], mk_l[cand[0][1]] = cand[0][1], li
+    for k, dots in enumerate(leaders):
+        if k not in used:
+            near = sorted((min(box_dist(l['box'], *pt) for pt in dots), l['raw']) for l in labels)[:2]
+            report.setdefault('leader_unmatched', []).append({'map': pid, 'ends': [[px(v) for v in pt] for pt in dots],
+                                                            'nearest_labels': [(n, round(d_ / 20)) for d_, n in near]})
+    report.setdefault('leader_lines', {})[pid] = {'lines': len(leaders), 'labels_moved': len(via_leader)}
 
     entries = []
     for li, l in enumerate(labels):
@@ -250,9 +348,12 @@ def province(swf, name, root_frame, out, report):
                             'label': {'x': px(l['box'][0]), 'y': px(l['box'][1])}, 'located': 'label'})
             continue
         kind = '도시' if li in lab_m else ('명승지' if hanja.endswith(SIGHT_SUFFIX) else '지명')
+        if li in via_leader:  # label now sits right of its city dot
+            lab, how = {'x': px(pt[0]) + 2, 'y': px(pt[1])}, 'leader'
+        else:
+            lab, how = {'x': px(l['box'][0]), 'y': px(l['box'][1])}, 'label'
         entries.append({'id': f'{pid}-l{l["depth"]}', 'name': ko, 'hanja': hanja, 'province': pid,
-                        'kind': kind, 'map': pid, 'x': px(pt[0]), 'y': px(pt[1]),
-                        'label': {'x': px(l['box'][0]), 'y': px(l['box'][1])}, 'located': 'label'})
+                        'kind': kind, 'map': pid, 'x': px(pt[0]), 'y': px(pt[1]), 'label': lab, 'located': how})
 
     # --- hotspot buttons -> description frames (and pages linked from inside the popups)
     def popup_links(fi):

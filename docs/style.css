@@ -113,7 +113,12 @@ main { height: calc(100% - var(--top-h)); }
 .map.detail [fill="#0000ff"]:not([fill-opacity]), .map.detail [fill="#0099ff"], .map.detail [fill="#0066ff"] { fill: #7fa8c9; }
 .map.detail [fill="#3399ff"] { fill: #fffdf8; }
 .map.detail [fill="#009900"], .map.detail [fill="#339900"]:not([fill-opacity]) { fill: #6d8a55; }
-.map.detail [fill-opacity="0.2"] { fill-opacity: .1; }
+.map.detail [fill-opacity="0.2"] { fill-opacity: .08; }
+/* sea gradients: bright cyan→blue in the original, light indigo washes here */
+.map.detail stop[stop-color="#00ccff"], .map.detail stop[stop-color="#00ffff"], .map.detail stop[stop-color="#0099cc"],
+.map.detail stop[stop-color="#0099ff"], .map.detail stop[stop-color="#00a0ff"] { stop-color: #d3e2ed; }
+.map.detail stop[stop-color="#0000ff"], .map.detail stop[stop-color="#0066ff"], .map.detail stop[stop-color="#006cff"],
+.map.detail stop[stop-color="#004fff"] { stop-color: #a7c1d8; }
 
 .legend {
   position: absolute; left: 12px; bottom: 16px; z-index: 2; margin: 0; padding: 8px 12px; list-style: none;
