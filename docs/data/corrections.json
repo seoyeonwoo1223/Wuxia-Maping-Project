@@ -7828,5 +7828,586 @@
    "replace": "장개석에게 유폐되었던",
    "why": "사실 오류 수정(확인됨)"
   }
+ ],
+ "emperors": [
+  {
+   "dyn": "dyn2",
+   "row": 35,
+   "expect": "",
+   "set": {
+    "name": "신정왕",
+    "hanja": "愼靚王"
+   },
+   "why": "깨진 글자 복원"
+  },
+  {
+   "dyn": "dyn4",
+   "row": 4,
+   "expect": "소제홍(少帝弘",
+   "set": {
+    "name": "소제홍",
+    "hanja": "少帝弘"
+   },
+   "why": "깨진 글자 복원"
+  },
+  {
+   "dyn": "dyn4",
+   "row": 21,
+   "expect": "",
+   "set": {
+    "name": "상제",
+    "hanja": "殤帝"
+   },
+   "why": "깨진 글자 복원"
+  },
+  {
+   "dyn": "dyn4",
+   "row": 23,
+   "expect": "북?제",
+   "set": {
+    "name": "북향후",
+    "hanja": "北鄕侯"
+   },
+   "why": "깨진 글자 복원"
+  },
+  {
+   "dyn": "dyn4",
+   "row": 28,
+   "expect": "",
+   "set": {
+    "name": "영제",
+    "hanja": "靈帝"
+   },
+   "why": "깨진 글자 복원"
+  },
+  {
+   "dyn": "dyn4",
+   "row": 30,
+   "expect": "",
+   "set": {
+    "name": "헌제",
+    "hanja": "獻帝"
+   },
+   "why": "깨진 글자 복원"
+  },
+  {
+   "dyn": "dyn5",
+   "row": 2,
+   "expect": "?王",
+   "set": {
+    "name": "제왕",
+    "hanja": "齊王"
+   },
+   "why": "깨진 글자 복원"
+  },
+  {
+   "dyn": "dyn5",
+   "row": 8,
+   "expect": "?稽王*",
+   "set": {
+    "name": "회계왕",
+    "hanja": "會稽王"
+   },
+   "why": "깨진 글자 복원"
+  },
+  {
+   "dyn": "dyn6",
+   "row": 2,
+   "expect": "",
+   "set": {
+    "name": "회제",
+    "hanja": "懷帝"
+   },
+   "why": "깨진 글자 복원"
+  },
+  {
+   "dyn": "dyn19",
+   "row": 9,
+   "expect": "",
+   "set": {
+    "name": "은제",
+    "hanja": "隱帝"
+   },
+   "why": "깨진 글자 복원"
+  },
+  {
+   "dyn": "dyn20",
+   "row": 2,
+   "expect": "",
+   "set": {
+    "name": "진종",
+    "hanja": "眞宗"
+   },
+   "why": "깨진 글자 복원"
+  },
+  {
+   "dyn": "dyn24",
+   "row": 8,
+   "expect": "",
+   "set": {
+    "name": "헌종",
+    "hanja": "獻宗"
+   },
+   "why": "깨진 글자 복원"
+  },
+  {
+   "dyn": "dyn25",
+   "row": 8,
+   "expect": "",
+   "set": {
+    "name": "헌종",
+    "hanja": "憲宗"
+   },
+   "why": "깨진 글자 복원"
+  },
+  {
+   "dyn": "dyn2",
+   "row": 9,
+   "expect": "녹왕",
+   "set": {
+    "name": "여왕",
+    "hanja": "厲王"
+   },
+   "why": "오기 수정"
+  },
+  {
+   "dyn": "dyn2",
+   "row": 22,
+   "expect": "우왕",
+   "set": {
+    "name": "영왕",
+    "hanja": "靈王"
+   },
+   "why": "오기 수정"
+  },
+  {
+   "dyn": "dyn2",
+   "row": 34,
+   "expect": "겸왕",
+   "set": {
+    "name": "현왕",
+    "hanja": "顯王"
+   },
+   "why": "오기 수정"
+  },
+  {
+   "dyn": "dyn2",
+   "row": 36,
+   "expect": "신왕",
+   "set": {
+    "name": "난왕",
+    "hanja": "赧王"
+   },
+   "why": "오기 수정"
+  },
+  {
+   "dyn": "dyn2",
+   "row": 37,
+   "expect": "혜왕",
+   "delete": true,
+   "why": "주나라 왕이 아님(BC 256 멸망)"
+  },
+  {
+   "dyn": "dyn4",
+   "row": 0,
+   "expect": "장양왕",
+   "delete": true,
+   "why": "진(秦) 장양왕 중복"
+  },
+  {
+   "dyn": "dyn4",
+   "row": 16,
+   "expect": "경시제",
+   "set": {
+    "group": "현한(玄漢)"
+   },
+   "why": "오기 수정"
+  },
+  {
+   "dyn": "dyn9",
+   "row": 2,
+   "expect": "임왕",
+   "set": {
+    "name": "울림왕",
+    "hanja": "鬱林王"
+   },
+   "why": "오기 수정"
+  },
+  {
+   "dyn": "dyn10",
+   "row": 4,
+   "expect": "정양우",
+   "set": {
+    "name": "정양후",
+    "hanja": "貞陽侯"
+   },
+   "why": "오기 수정"
+  },
+  {
+   "dyn": "dyn12",
+   "row": 5,
+   "expect": "현문제",
+   "set": {
+    "name": "헌문제",
+    "hanja": "獻文帝"
+   },
+   "why": "오기 수정"
+  },
+  {
+   "dyn": "dyn13",
+   "row": 0,
+   "expect": "이용제",
+   "set": {
+    "name": "효정제",
+    "hanja": "孝靜帝"
+   },
+   "why": "오기 수정"
+  },
+  {
+   "dyn": "dyn14",
+   "row": 1,
+   "expect": "서제",
+   "set": {
+    "name": "폐제",
+    "hanja": "廢帝"
+   },
+   "why": "오기 수정"
+  },
+  {
+   "dyn": "dyn16",
+   "row": 1,
+   "expect": "서제",
+   "set": {
+    "name": "폐제",
+    "hanja": "廢帝"
+   },
+   "why": "오기 수정"
+  },
+  {
+   "dyn": "dyn15",
+   "row": 0,
+   "expect": "효문제",
+   "set": {
+    "name": "효민제",
+    "hanja": "孝閔帝"
+   },
+   "why": "오기 수정"
+  },
+  {
+   "dyn": "dyn15",
+   "row": 4,
+   "expect": "용제",
+   "set": {
+    "name": "정제",
+    "hanja": "靜帝"
+   },
+   "why": "오기 수정"
+  },
+  {
+   "dyn": "dyn18",
+   "row": 0,
+   "expect": "고조",
+   "set": {
+    "group": "당(唐)"
+   },
+   "why": "왕조 구분 오류"
+  },
+  {
+   "dyn": "dyn18",
+   "row": 1,
+   "expect": "태종",
+   "set": {
+    "group": "당(唐)"
+   },
+   "why": "왕조 구분 오류"
+  },
+  {
+   "dyn": "dyn18",
+   "row": 2,
+   "expect": "고종",
+   "set": {
+    "group": "당(唐)"
+   },
+   "why": "왕조 구분 오류"
+  },
+  {
+   "dyn": "dyn18",
+   "row": 3,
+   "expect": "중종",
+   "set": {
+    "group": "당(唐)"
+   },
+   "why": "왕조 구분 오류"
+  },
+  {
+   "dyn": "dyn18",
+   "row": 4,
+   "expect": "예종",
+   "set": {
+    "group": "당(唐)"
+   },
+   "why": "왕조 구분 오류"
+  },
+  {
+   "dyn": "dyn18",
+   "row": 5,
+   "expect": "무후",
+   "set": {
+    "group": "주(周)"
+   },
+   "why": "왕조 구분 오류"
+  },
+  {
+   "dyn": "dyn18",
+   "row": 6,
+   "expect": "예종",
+   "set": {
+    "group": "당(唐)"
+   },
+   "why": "왕조 구분 오류"
+  },
+  {
+   "dyn": "dyn18",
+   "row": 7,
+   "expect": "현종",
+   "set": {
+    "group": "당(唐)"
+   },
+   "why": "왕조 구분 오류"
+  },
+  {
+   "dyn": "dyn18",
+   "row": 8,
+   "expect": "숙종",
+   "set": {
+    "group": "당(唐)"
+   },
+   "why": "왕조 구분 오류"
+  },
+  {
+   "dyn": "dyn18",
+   "row": 9,
+   "expect": "대종",
+   "set": {
+    "group": "당(唐)"
+   },
+   "why": "왕조 구분 오류"
+  },
+  {
+   "dyn": "dyn18",
+   "row": 10,
+   "expect": "덕종",
+   "set": {
+    "group": "당(唐)"
+   },
+   "why": "왕조 구분 오류"
+  },
+  {
+   "dyn": "dyn18",
+   "row": 11,
+   "expect": "순종",
+   "set": {
+    "group": "당(唐)"
+   },
+   "why": "왕조 구분 오류"
+  },
+  {
+   "dyn": "dyn18",
+   "row": 12,
+   "expect": "헌종",
+   "set": {
+    "group": "당(唐)"
+   },
+   "why": "왕조 구분 오류"
+  },
+  {
+   "dyn": "dyn18",
+   "row": 13,
+   "expect": "목종",
+   "set": {
+    "group": "당(唐)"
+   },
+   "why": "왕조 구분 오류"
+  },
+  {
+   "dyn": "dyn18",
+   "row": 14,
+   "expect": "경종",
+   "set": {
+    "group": "당(唐)"
+   },
+   "why": "왕조 구분 오류"
+  },
+  {
+   "dyn": "dyn18",
+   "row": 15,
+   "expect": "문종",
+   "set": {
+    "group": "당(唐)"
+   },
+   "why": "왕조 구분 오류"
+  },
+  {
+   "dyn": "dyn18",
+   "row": 16,
+   "expect": "무종",
+   "set": {
+    "group": "당(唐)"
+   },
+   "why": "왕조 구분 오류"
+  },
+  {
+   "dyn": "dyn18",
+   "row": 17,
+   "expect": "선종",
+   "set": {
+    "group": "당(唐)"
+   },
+   "why": "왕조 구분 오류"
+  },
+  {
+   "dyn": "dyn18",
+   "row": 18,
+   "expect": "의종",
+   "set": {
+    "group": "당(唐)"
+   },
+   "why": "왕조 구분 오류"
+  },
+  {
+   "dyn": "dyn18",
+   "row": 19,
+   "expect": "희종",
+   "set": {
+    "group": "당(唐)"
+   },
+   "why": "왕조 구분 오류"
+  },
+  {
+   "dyn": "dyn18",
+   "row": 20,
+   "expect": "소종",
+   "set": {
+    "group": "당(唐)"
+   },
+   "why": "왕조 구분 오류"
+  },
+  {
+   "dyn": "dyn18",
+   "row": 21,
+   "expect": "예제",
+   "set": {
+    "group": "당(唐)"
+   },
+   "why": "왕조 구분 오류"
+  },
+  {
+   "dyn": "dyn18",
+   "row": 15,
+   "expect": "문종",
+   "set": {
+    "hanja": "文宗"
+   },
+   "why": "오기 수정"
+  },
+  {
+   "dyn": "dyn18",
+   "row": 16,
+   "expect": "무종",
+   "set": {
+    "hanja": "武宗"
+   },
+   "why": "오기 수정"
+  },
+  {
+   "dyn": "dyn18",
+   "row": 17,
+   "expect": "선종",
+   "set": {
+    "hanja": "宣宗"
+   },
+   "why": "오기 수정"
+  },
+  {
+   "dyn": "dyn18",
+   "row": 21,
+   "expect": "예제",
+   "set": {
+    "name": "애제"
+   },
+   "why": "오기 수정"
+  },
+  {
+   "dyn": "dyn19",
+   "row": 5,
+   "expect": "건제",
+   "set": {
+    "name": "말제",
+    "hanja": "末帝"
+   },
+   "why": "오기 수정"
+  },
+  {
+   "dyn": "dyn19",
+   "row": 7,
+   "expect": "출종",
+   "set": {
+    "name": "출제"
+   },
+   "why": "오기 수정"
+  },
+  {
+   "dyn": "dyn21",
+   "row": 6,
+   "expect": "홍종",
+   "set": {
+    "name": "흥종"
+   },
+   "why": "오기 수정"
+  },
+  {
+   "dyn": "dyn22",
+   "row": 6,
+   "expect": "영종",
+   "set": {
+    "name": "위소왕",
+    "hanja": "衛紹王"
+   },
+   "why": "오기 수정"
+  },
+  {
+   "dyn": "dyn8",
+   "append": [
+    {
+     "name": "전폐제",
+     "hanja": "前廢帝",
+     "start": "464",
+     "end": "465",
+     "group": null
+    },
+    {
+     "name": "명제",
+     "hanja": "明帝",
+     "start": "465",
+     "end": "472",
+     "group": null
+    },
+    {
+     "name": "후폐제",
+     "hanja": "後廢帝",
+     "start": "472",
+     "end": "477",
+     "group": null
+    },
+    {
+     "name": "순제",
+     "hanja": "順帝",
+     "start": "477",
+     "end": "479",
+     "group": null
+    }
+   ],
+   "why": "누락된 제왕 보충"
+  }
  ]
 }
