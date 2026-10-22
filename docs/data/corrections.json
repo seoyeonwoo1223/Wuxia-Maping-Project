@@ -8009,6 +8009,195 @@
    "find": "벽하원군(碧霞元君)을 모신 옥황묘(玉皇廟)가 있고",
    "replace": "벽하원군(碧霞元君)을 모신 벽하사(碧霞祠)와 옥황상제를 모신 옥황묘(玉皇廟)가 있고",
    "why": "사실 오류 수정(확인됨)"
+  },
+  {
+   "id": "anhui-l87",
+   "page": 0,
+   "find": "일몰도 절\n경이지만",
+   "replace": "일몰도 절경이지만",
+   "why": "띄어쓰기"
+  },
+  {
+   "id": "anhui",
+   "page": 0,
+   "find": "오태산, 아미산",
+   "replace": "오대산, 아미산",
+   "why": "표기 통일"
+  },
+  {
+   "id": "anhui-f3",
+   "page": 0,
+   "find": "오태산, 아미산",
+   "replace": "오대산, 아미산",
+   "why": "표기 통일"
+  },
+  {
+   "id": "xinjiang-f2",
+   "page": 0,
+   "find": "카르키즈인",
+   "replace": "키르기스인",
+   "why": "오기"
+  },
+  {
+   "id": "shandong-f2",
+   "page": 0,
+   "find": "동경 119。30' - 121。)",
+   "replace": "동경 119°30' - 121°)",
+   "why": "문장부호"
+  },
+  {
+   "id": "shandong-f2",
+   "page": 0,
+   "find": "12.2。C",
+   "replace": "12.2℃",
+   "why": "문장부호"
+  },
+  {
+   "id": "shandong-f2",
+   "page": 0,
+   "find": "25。C",
+   "replace": "25℃",
+   "why": "문장부호"
+  },
+  {
+   "id": "zhejiang-f3",
+   "page": 0,
+   "find": "조음동(調音洞)",
+   "replace": "조음동(潮音洞)",
+   "why": "오기"
+  },
+  {
+   "id": "hainan-f1",
+   "page": 0,
+   "find": "부율천",
+   "replace": "부속천(浮粟泉)",
+   "why": "오기"
+  },
+  {
+   "id": "hainan-f1",
+   "page": 0,
+   "find": "해구공원(海口)",
+   "replace": "해구공원(海口公園)",
+   "why": "누락"
+  },
+  {
+   "id": "hainan-f2",
+   "page": 0,
+   "find": "려족",
+   "replace": "여족",
+   "why": "표기 통일"
+  },
+  {
+   "id": "hainan-f2",
+   "page": 0,
+   "find": "아롱만",
+   "replace": "아룡만(亞龍灣)",
+   "why": "표기"
+  },
+  {
+   "id": "qinghai-f3",
+   "page": 0,
+   "find": "옥청(玉淸) 상청",
+   "replace": "옥청(玉淸), 상청",
+   "why": "문장부호"
+  },
+  {
+   "id": "sichuan-f2",
+   "page": 0,
+   "find": "이십 육척",
+   "replace": "이십육 척",
+   "why": "띄어쓰기"
+  },
+  {
+   "id": "sichuan-f2",
+   "page": 0,
+   "find": "높이 십 육척",
+   "replace": "높이 십육 척",
+   "why": "띄어쓰기"
+  },
+  {
+   "id": "sichuan-f2",
+   "page": 0,
+   "find": "사천 칠백 개",
+   "replace": "사천칠백 개",
+   "why": "띄어쓰기"
+  },
+  {
+   "id": "sichuan-f2",
+   "page": 0,
+   "find": "열 여덟 번",
+   "replace": "열여덟 번",
+   "why": "띄어쓰기"
+  },
+  {
+   "id": "sichuan-f2",
+   "page": 0,
+   "find": "백 여덟 번",
+   "replace": "백여덟 번",
+   "why": "띄어쓰기"
+  },
+  {
+   "id": "hebei",
+   "page": 0,
+   "find": "20만 km2.",
+   "replace": "20만㎢.",
+   "why": "표기"
+  },
+  {
+   "id": "heilongjiang",
+   "page": 0,
+   "find": "3600 km2.",
+   "replace": "3600㎢.",
+   "why": "표기"
+  },
+  {
+   "id": "heilongjiang-f1",
+   "page": 0,
+   "find": "1,260만m2",
+   "replace": "1,260만㎡",
+   "why": "표기"
+  },
+  {
+   "id": "jiangsu",
+   "page": 0,
+   "find": "2600 km2.",
+   "replace": "2600㎢.",
+   "why": "표기"
+  },
+  {
+   "id": "jilin",
+   "page": 0,
+   "find": "7000 km2.",
+   "replace": "7000㎢.",
+   "why": "표기"
+  },
+  {
+   "id": "jilin-f1",
+   "page": 0,
+   "find": "158km2",
+   "replace": "158㎢",
+   "why": "표기"
+  },
+  {
+   "id": "neimenggu",
+   "page": 0,
+   "find": "3천 km2.",
+   "replace": "3천㎢.",
+   "why": "표기"
+  },
+  {
+   "id": "ningxia",
+   "page": 0,
+   "find": "6400 km2.",
+   "replace": "6400㎢.",
+   "why": "표기"
+  },
+  {
+   "id": "shanxi",
+   "page": 0,
+   "find": "7000 km2.",
+   "replace": "7000㎢.",
+   "why": "표기"
   }
  ],
  "emperors": [
