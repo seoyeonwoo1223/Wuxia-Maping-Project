@@ -1,5 +1,5 @@
 {
- "_note": "원작 설명 글의 오탈자·비문 교정. 원문(places.json)은 그대로 두고, 사이트가 불러올 때 page마다 find→replace를 순서대로 적용한다. find는 해당 쪽에서 정확히 한 번 나와야 한다(tools/check_corrections.py로 검사).",
+ "_note": "원작 설명 글의 오탈자·비문 교정. 원문(places.json)은 그대로 두고, 사이트가 불러올 때 page마다 find→replace를 순서대로 적용한다. find는 해당 쪽에서 정확히 한 번 나와야 한다(tools/check_corrections.py로 검사). 사실 관계를 고친 항목은 source에 근거 링크를 둔다.",
  "edits": [
   {
    "id": "sichuan",
@@ -8009,6 +8009,547 @@
    "find": "벽하원군(碧霞元君)을 모신 옥황묘(玉皇廟)가 있고",
    "replace": "벽하원군(碧霞元君)을 모신 벽하사(碧霞祠)와 옥황상제를 모신 옥황묘(玉皇廟)가 있고",
    "why": "사실 오류 수정(확인됨)"
+  },
+  {
+   "id": "anhui-l87",
+   "page": 0,
+   "find": "일몰도 절\n경이지만",
+   "replace": "일몰도 절경이지만",
+   "why": "띄어쓰기"
+  },
+  {
+   "id": "anhui",
+   "page": 0,
+   "find": "오태산, 아미산",
+   "replace": "오대산, 아미산",
+   "why": "표기 통일"
+  },
+  {
+   "id": "anhui-f3",
+   "page": 0,
+   "find": "오태산, 아미산",
+   "replace": "오대산, 아미산",
+   "why": "표기 통일"
+  },
+  {
+   "id": "xinjiang-f2",
+   "page": 0,
+   "find": "카르키즈인",
+   "replace": "키르기스인",
+   "why": "오기"
+  },
+  {
+   "id": "shandong-f2",
+   "page": 0,
+   "find": "동경 119。30' - 121。)",
+   "replace": "동경 119°30' - 121°)",
+   "why": "문장부호"
+  },
+  {
+   "id": "shandong-f2",
+   "page": 0,
+   "find": "12.2。C",
+   "replace": "12.2℃",
+   "why": "문장부호"
+  },
+  {
+   "id": "shandong-f2",
+   "page": 0,
+   "find": "25。C",
+   "replace": "25℃",
+   "why": "문장부호"
+  },
+  {
+   "id": "zhejiang-f3",
+   "page": 0,
+   "find": "조음동(調音洞)",
+   "replace": "조음동(潮音洞)",
+   "why": "오기"
+  },
+  {
+   "id": "hainan-f1",
+   "page": 0,
+   "find": "부율천",
+   "replace": "부속천(浮粟泉)",
+   "why": "오기"
+  },
+  {
+   "id": "hainan-f1",
+   "page": 0,
+   "find": "해구공원(海口)",
+   "replace": "해구공원(海口公園)",
+   "why": "누락"
+  },
+  {
+   "id": "hainan-f2",
+   "page": 0,
+   "find": "려족",
+   "replace": "여족",
+   "why": "표기 통일"
+  },
+  {
+   "id": "hainan-f2",
+   "page": 0,
+   "find": "아롱만",
+   "replace": "아룡만(亞龍灣)",
+   "why": "표기"
+  },
+  {
+   "id": "qinghai-f3",
+   "page": 0,
+   "find": "옥청(玉淸) 상청",
+   "replace": "옥청(玉淸), 상청",
+   "why": "문장부호"
+  },
+  {
+   "id": "sichuan-f2",
+   "page": 0,
+   "find": "이십 육척",
+   "replace": "이십육 척",
+   "why": "띄어쓰기"
+  },
+  {
+   "id": "sichuan-f2",
+   "page": 0,
+   "find": "높이 십 육척",
+   "replace": "높이 십육 척",
+   "why": "띄어쓰기"
+  },
+  {
+   "id": "sichuan-f2",
+   "page": 0,
+   "find": "사천 칠백 개",
+   "replace": "사천칠백 개",
+   "why": "띄어쓰기"
+  },
+  {
+   "id": "sichuan-f2",
+   "page": 0,
+   "find": "열 여덟 번",
+   "replace": "열여덟 번",
+   "why": "띄어쓰기"
+  },
+  {
+   "id": "sichuan-f2",
+   "page": 0,
+   "find": "백 여덟 번",
+   "replace": "백여덟 번",
+   "why": "띄어쓰기"
+  },
+  {
+   "id": "hebei",
+   "page": 0,
+   "find": "20만 km2.",
+   "replace": "20만㎢.",
+   "why": "표기"
+  },
+  {
+   "id": "heilongjiang",
+   "page": 0,
+   "find": "3600 km2.",
+   "replace": "3600㎢.",
+   "why": "표기"
+  },
+  {
+   "id": "heilongjiang-f1",
+   "page": 0,
+   "find": "1,260만m2",
+   "replace": "1,260만㎡",
+   "why": "표기"
+  },
+  {
+   "id": "jiangsu",
+   "page": 0,
+   "find": "2600 km2.",
+   "replace": "2600㎢.",
+   "why": "표기"
+  },
+  {
+   "id": "jilin",
+   "page": 0,
+   "find": "7000 km2.",
+   "replace": "7000㎢.",
+   "why": "표기"
+  },
+  {
+   "id": "jilin-f1",
+   "page": 0,
+   "find": "158km2",
+   "replace": "158㎢",
+   "why": "표기"
+  },
+  {
+   "id": "neimenggu",
+   "page": 0,
+   "find": "3천 km2.",
+   "replace": "3천㎢.",
+   "why": "표기"
+  },
+  {
+   "id": "ningxia",
+   "page": 0,
+   "find": "6400 km2.",
+   "replace": "6400㎢.",
+   "why": "표기"
+  },
+  {
+   "id": "shanxi",
+   "page": 0,
+   "find": "7000 km2.",
+   "replace": "7000㎢.",
+   "why": "표기"
+  },
+  {
+   "id": "shandong-f4",
+   "page": 0,
+   "find": "딸 벽하원군(碧霞元君)을 모신 옥황묘(玉皇廟)가 있고",
+   "replace": "딸 벽하원군(碧霞元君)을 모신 벽하사(碧霞祠)와 옥황상제를 모신 옥황묘(玉皇廟)가 있고",
+   "why": "사실 오류 수정(출처 확인): 주요지명(lm28)과 같은 수정",
+   "source": "https://you.ctrip.com/sight/taian746/1377.html"
+  },
+  {
+   "id": "hunan-f2",
+   "page": 0,
+   "find": "호남성 형산시 북쪽 40km 지점",
+   "replace": "호남성 형양시 북쪽 40km 지점",
+   "why": "사실 오류 수정(출처 확인): 형산은 형양시 남악구에 있음, 주요지명(lm28)과 통일",
+   "source": "https://m.maigoo.com/citiao/3549.html"
+  },
+  {
+   "id": "heilongjiang",
+   "page": 0,
+   "find": "북쪽과 동쪽은 러시아 연방, 서쪽은 몽골[蒙古]과 국경을 접한다.",
+   "replace": "북쪽과 동쪽은 러시아 연방과 국경을 접하고, 서쪽은 네이멍구[內蒙古] 자치구와 맞닿아 있다.",
+   "why": "사실 오류 수정(출처 확인): 서쪽은 몽골국이 아니라 내몽고자치구",
+   "source": "https://www.newworldencyclopedia.org/entry/Heilongjiang"
+  },
+  {
+   "id": "heilongjiang",
+   "page": 0,
+   "find": "샤오싱안링에서 남류해 온 넌장강",
+   "replace": "다싱안링에서 발원해 남류해 온 넌장강",
+   "why": "사실 오류 수정(출처 확인): 넌장강은 대흥안령 이륵호리산에서 발원",
+   "source": "https://www.eol.cn/job/exam/zhidao/202204/t20220407_2219292.shtml"
+  },
+  {
+   "id": "shandong-f1",
+   "page": 0,
+   "find": "제나라의 도읍으로 번영했다.",
+   "replace": "제나라 서쪽 변경을 지키는 요충지였다(제나라의 도읍은 임치).",
+   "why": "사실 오류 수정(출처 확인): 제나라 도읍은 임치",
+   "source": "https://m.thepaper.cn/baijiahao_22693472"
+  },
+  {
+   "id": "shandong-f1",
+   "page": 0,
+   "find": "이백(李白)이나 두보(杜甫) 같은 시인이 술을 나누며 시를 읊었다고 하는",
+   "replace": "두보(杜甫)가 북해태수 이옹(李邕)과 술을 나누며 시를 읊었다고 하는",
+   "why": "사실 오류 수정(출처 확인): 역하정 연회는 두보와 이옹(745년)",
+   "source": "https://www.maigoo.com/citiao/221575.html"
+  },
+  {
+   "id": "shandong-f3",
+   "page": 0,
+   "find": "진대의 화가 고개지(顧愷之)의",
+   "replace": "당나라 화가 오도자(吳道子)의",
+   "why": "사실 오류 수정(출처 확인): 성적전의 공자행교상은 오도자 작으로 전함",
+   "source": "https://www.rujiazg.com/article/24775"
+  },
+  {
+   "id": "shandong-f3",
+   "page": 0,
+   "find": "동로에는 공씨 가문의 묘지가 있고",
+   "replace": "동로에는 공씨 가문의 사당(家廟)이 있고",
+   "why": "사실 오류 수정(출처 확인): 공부 동로는 가묘(사당)",
+   "source": "https://www.zdic.net/hans/孔府"
+  },
+  {
+   "id": "shandong-f4",
+   "page": 0,
+   "find": "진시황은 24작위 중",
+   "replace": "진시황은 진나라 20등 작위 중",
+   "why": "사실 오류 수정(출처 확인): 오대부는 20등작의 제9급",
+   "source": "https://www.zdic.net/hant/五大夫"
+  },
+  {
+   "id": "zhejiang-f1",
+   "page": 0,
+   "find": "춘추시대에는\n월(越)나라의 수도였고",
+   "replace": "춘추시대에는\n월(越)나라 땅이었고",
+   "why": "사실 오류 수정(출처 확인): 월나라 도읍은 회계(지금의 소흥)",
+   "source": "https://www.news.cn/politics/20260513/4575ab797ef6464b9745640e530f89f9/c.html"
+  },
+  {
+   "id": "yunnan-f1",
+   "page": 0,
+   "find": "1895년~1904년 프랑스에 의해 건설되었으며",
+   "replace": "1904년~1910년 프랑스에 의해 건설되었으며",
+   "why": "사실 오류 수정(출처 확인): 전월철도 1910년 개통",
+   "source": "https://en.wikipedia.org/wiki/Kunming%E2%80%93Haiphong_railway"
+  },
+  {
+   "id": "xinjiang-f3",
+   "page": 0,
+   "find": "옛날에는 화주라고 불리었고 한무제\n시대에는 고창군이 설치되어",
+   "replace": "옛날에는 화주라고 불리었고, 한나라 때 고창벽(高昌壁)이 세워진 뒤\n4세기 전량(前涼) 때 고창군이 설치되어",
+   "why": "사실 오류 수정(출처 확인): 고창군은 전량 장준 때 설치",
+   "source": "https://www.maigoo.com/citiao/139442.html"
+  },
+  {
+   "id": "xinjiang-f3",
+   "page": 0,
+   "find": "시내에서 남서쪽으로 50㎞ 떨어져 있는",
+   "replace": "시내에서 동쪽으로 약 45㎞ 떨어져 있는",
+   "why": "사실 오류 수정(출처 확인): 베제클리크는 투루판 동쪽 45㎞",
+   "source": "https://you.ctrip.com/sight/2020018/4664.html"
+  },
+  {
+   "id": "xinjiang-f1",
+   "page": 0,
+   "find": "우루무치란 위구르어로",
+   "replace": "우루무치란 몽골어로",
+   "why": "사실 오류 수정(출처 확인)",
+   "source": "https://www.zdic.net/hans/乌鲁木齐"
+  },
+  {
+   "id": "xizang-f2",
+   "page": 0,
+   "find": "문성공주(文成公主)가 결혼 예물로 가져온 석가모니 12세상을 모시기 위해 지어졌다.",
+   "replace": "문성공주(文成公主)를 맞으며 지은 궁전에서 비롯되었다(공주가 가져온 석가모니 12세상은 지금 대소사에 모셔져 있다).",
+   "why": "사실 오류 수정(출처 확인): 12세상은 대소사(조캉)에 봉안",
+   "source": "https://m.thepaper.cn/newsDetail_forward_31392495"
+  },
+  {
+   "id": "xizang-f2",
+   "page": 0,
+   "find": "20,000개의 방이 있다",
+   "replace": "999칸의 방이 있다",
+   "why": "사실 오류 수정(출처 확인): 같은 글의 999칸과 통일",
+   "source": "https://govt.chinadaily.com.cn/s/201905/08/WS5cd2a10e498e079e6801faff/potala-palace-lhasa.html"
+  },
+  {
+   "id": "xizang-f2",
+   "page": 0,
+   "find": "무려 3만 명의 승려",
+   "replace": "약 1만 명의 승려",
+   "why": "사실 오류 수정(출처 확인): 전성기 약 1만 명",
+   "source": "https://www.gosokrinpoche.com/zh-hant/glossary/drepung/"
+  },
+  {
+   "id": "liaoning-f1",
+   "page": 0,
+   "find": "대정전(大政殿)이 있는데",
+   "replace": "팔각 이중 지붕의 대정전(大政殿)이 있는데",
+   "why": "사실 오류 수정(출처 확인): 팔각형은 대정전",
+   "source": "https://www.chinanews.com/sh/2018/12-20/8707318.shtml"
+  },
+  {
+   "id": "liaoning-f1",
+   "page": 0,
+   "find": "숭정전은 2층 팔각형이 특징이며 ",
+   "replace": "숭정전은 황태극(皇太極)이 정무를 보던 정전으로 ",
+   "why": "사실 오류 수정(출처 확인): 숭정전은 경산식 정전",
+   "source": "https://www.chinanews.com/sh/2018/12-20/8707318.shtml"
+  },
+  {
+   "id": "liaoning-f1",
+   "page": 0,
+   "find": "앞쪽으로는 운하에 면하고",
+   "replace": "앞쪽으로는 혼하(渾河)에 면하고",
+   "why": "사실 오류 수정(출처 확인): 복릉은 앞으로 혼하에 면함",
+   "source": "https://www.maigoo.com/citiao/137986.html"
+  },
+  {
+   "id": "liaoning",
+   "page": 0,
+   "find": "평원 동쪽은 100 m급의 산봉이 이어지는",
+   "replace": "평원 동쪽은 해발 500∼800m(높은 곳은 1,300m 이상)의 산봉이 이어지는",
+   "why": "사실 오류 수정(출처 확인)",
+   "source": "https://www.maigoo.com/top/425681.html"
+  },
+  {
+   "id": "jilin-f1",
+   "page": 0,
+   "find": "장춘에 남만주 철도회사를 설립하여 만주침략의 전초기지로 삼았다. 전쟁이 끝난 후\n동청철도의 장춘 이남 부분은 일본에 넘어갔으며,",
+   "replace": "전쟁이 끝난 뒤 동청철도의 장춘 이남 부분을 넘겨받아\n1906년 대련에 남만주 철도회사를 세우고 만주 침략의 발판으로 삼았으며,",
+   "why": "사실 오류 수정(출처 확인): 만철은 1906년 설립, 본사 대련",
+   "source": "https://en.wikipedia.org/wiki/South_Manchuria_Railway"
+  },
+  {
+   "id": "jilin",
+   "page": 0,
+   "find": "옌볜[延邊]의 한족(韓族) 자치주",
+   "replace": "옌볜[延邊]의 조선족 자치주",
+   "why": "사실 오류 수정(출처 확인): 정식 명칭 연변조선족자치주",
+   "source": "https://paper.people.com.cn/rmrbwap/html/2022-09/04/nw.D110000renmrb_20220904_5-04.htm"
+  },
+  {
+   "id": "jiangsu",
+   "page": 0,
+   "find": "하류 부분이 양쯔강에 침식당한 이후",
+   "replace": "하류 부분을 황허강에 빼앗긴(황하탈회 黃河奪淮) 이후",
+   "why": "사실 오류 수정(출처 확인): 송·금 때 황하가 회하 하류를 차지",
+   "source": "https://m.thepaper.cn/newsDetail_forward_8147056"
+  },
+  {
+   "id": "jiangsu-f1",
+   "page": 0,
+   "find": "12마리의 동물을 상징하는 12지신상과 4명의 장군상, 4명의 승려상이 지금도 있다.",
+   "replace": "사자·해태·낙타·코끼리·기린·말 여섯 가지 석수 12쌍과 문신·무신 석상 각 2쌍이 지금도 남아 있다.",
+   "why": "사실 오류 수정(출처 확인): 명효릉 신도 석상생",
+   "source": "https://www.thenewslens.com/article/145054"
+  },
+  {
+   "id": "hebei-f2",
+   "page": 0,
+   "find": "이 섬의 유래는 진의 시황제가 장성용의 벽돌로 만든 섬이라고 해서 진황도라 이름을 붙였다고 한다.",
+   "replace": "진황도라는 이름은 기원전 215년 진시황이 동쪽을 순행하다 이곳에 머물며 방사를 바다로 보내 신선을 구하게 했다는 데서 유래했다고 한다.",
+   "why": "사실 오류 수정(출처 확인)",
+   "source": "https://news.qq.com/rain/a/20201230A0CK2H00"
+  },
+  {
+   "id": "gansu-f1",
+   "page": 0,
+   "find": "금이 이곳에서 발견됨에 따라 금도(金都)라고도",
+   "replace": "처음 성을 쌓을 때 금이 나왔다 하여 금성(金城)이라고도",
+   "why": "사실 오류 수정(출처 확인): 옛 이름은 금성(金城)",
+   "source": "https://m.thepaper.cn/newsDetail_forward_19360635"
+  },
+  {
+   "id": "gansu-f1",
+   "page": 0,
+   "find": "당태종의 딸 문성공주",
+   "replace": "당 황실의 종실녀 문성공주",
+   "why": "사실 오류 수정(출처 확인): 문성공주는 태종의 친딸이 아닌 종실녀",
+   "source": "https://www.xinhuanet.com/politics/2015-07/21/c_128041950.htm"
+  },
+  {
+   "id": "gansu-f6",
+   "page": 0,
+   "find": "주천은 서주라 불리며",
+   "replace": "주천은 옛날 숙주(肅州)라 불렸으며",
+   "why": "사실 오류 수정(출처 확인)",
+   "source": "https://en.wikipedia.org/wiki/Jiuquan"
+  },
+  {
+   "id": "gansu",
+   "page": 0,
+   "find": "오령[烏嶺]",
+   "replace": "오초령[烏鞘嶺]",
+   "why": "사실 오류 수정(출처 확인): 하서회랑 동쪽 끝은 오초령",
+   "source": "https://paper.people.com.cn/rmrbwap/html/2024-04/30/nw.D110000renmrb_20240430_4-06.htm"
+  },
+  {
+   "id": "sichuan",
+   "page": 0,
+   "find": "북서쪽에서 남서쪽으로 향하고",
+   "replace": "북쪽에서 남쪽으로 향하고",
+   "why": "사실 오류 수정(출처 확인): 횡단산맥은 남북 방향",
+   "source": "https://ir.xtbg.ac.cn/bitstream/353005/2423/1/%e6%a8%aa%e6%96%ad%e5%b1%b1%e5%8c%ba%e6%a4%8d%e8%a2%ab%e5%88%86%e5%8c%ba.pdf"
+  },
+  {
+   "id": "shaanxi-f1",
+   "page": 0,
+   "find": "현재 종루는 무게 5,000근의 거대한 철제 시계가 하나 걸려 있으며",
+   "replace": "현재 종루에는 당나라 경운종(景雲鐘)을 본뜬 큰 종이 걸려 있으며",
+   "why": "사실 오류 수정(출처 확인): 시계가 아니라 경운종 복제품",
+   "source": "https://en.wikipedia.org/wiki/Bell_Tower_of_Xi%27an"
+  },
+  {
+   "id": "shaanxi-f1",
+   "page": 0,
+   "find": "유교경전 13경(655,025)",
+   "replace": "유교경전 12경(655,025자)",
+   "why": "사실 오류 수정(출처 확인): 개성석경은 12경",
+   "source": "https://www.sxlib.org.cn/dfzy/sczl/wwgjp/bmymz/201808/t20180806_930513.html"
+  },
+  {
+   "id": "hunan-f1",
+   "page": 0,
+   "find": "장사의 동쪽 오성비에 있는",
+   "replace": "장사의 동쪽 교외에 있는",
+   "why": "사실 오류 수정(출처 확인)",
+   "source": "https://cn.chinadaily.com.cn/a/202408/19/WS66c30552a310b35299d376c9.html"
+  },
+  {
+   "id": "hunan-f1",
+   "page": 0,
+   "find": "1921년 중국공산당 22호와",
+   "replace": "1921년부터 모택동이 살며 중국공산당 상구위원회(湘區委員會)를 이끌던 청수당(淸水塘) 22호와",
+   "why": "깨진 문장 복원(출처 확인)",
+   "source": "https://www.hunantoday.cn/news/xhn/202309/18647799.html"
+  },
+  {
+   "id": "henan-f5",
+   "page": 4,
+   "find": "퇴척공 (腿 功)",
+   "replace": "퇴척공 (腿踢功)",
+   "why": "깨진 한자 복원(출처 확인)",
+   "source": "https://www.slswwxx.com/news-343.html"
+  },
+  {
+   "id": "henan-f5",
+   "page": 4,
+   "find": "퇴춘공 ( 椿功)",
+   "replace": "척춘공 (踢椿功)",
+   "why": "깨진 한자 복원(출처 확인)",
+   "source": "https://www.slswwxx.com/news-343.html"
+  },
+  {
+   "id": "henan-f5",
+   "page": 4,
+   "find": "금규지 (金 指)",
+   "replace": "금산지 (金鏟指)",
+   "why": "깨진 한자 복원(출처 확인)",
+   "source": "https://www.slswwxx.com/news-343.html"
+  },
+  {
+   "id": "henan-f5",
+   "page": 4,
+   "find": "포판공 ( 板功)",
+   "replace": "포판공 (跑板功)",
+   "why": "깨진 한자 복원(출처 확인)",
+   "source": "https://www.slswwxx.com/news-343.html"
+  },
+  {
+   "id": "henan-f5",
+   "page": 4,
+   "find": "수수술 ( 水術)",
+   "replace": "수수술 (泅水術)",
+   "why": "깨진 한자 복원(출처 확인)",
+   "source": "https://www.slswwxx.com/news-343.html"
+  },
+  {
+   "id": "henan-f5",
+   "page": 6,
+   "find": "영미호뇌세(靈 護腦勢)",
+   "replace": "영미호뇌세(靈獼護腦勢)",
+   "why": "깨진 한자 복원(출처 확인)",
+   "source": "https://www.sohu.com/a/773594257_121124541"
+  },
+  {
+   "id": "henan-f5",
+   "page": 6,
+   "find": "읍주구흉(揖 鉤胸)",
+   "replace": "읍주구흉(揖肘鉤胸)",
+   "why": "깨진 한자 복원(출처 확인)",
+   "source": "https://baike.baidu.com/item/%E7%BD%97%E6%B1%89%E5%8D%81%E5%85%AB%E6%89%8B"
+  },
+  {
+   "id": "henan-f5",
+   "page": 6,
+   "find": "퇴력질탕(腿力跌 ) - 족첨직척",
+   "replace": "퇴력질탕(腿力跌蕩) - 족첨직척",
+   "why": "깨진 한자 복원(출처 확인)",
+   "source": "https://baike.baidu.com/item/%E7%BD%97%E6%B1%89%E5%8D%81%E5%85%AB%E6%89%8B"
+  },
+  {
+   "id": "henan-f5",
+   "page": 6,
+   "find": "퇴력질탕(腿力跌 ) - 횡퇴소격",
+   "replace": "퇴력질탕(腿力跌蕩) - 횡퇴소격",
+   "why": "깨진 한자 복원(출처 확인)",
+   "source": "https://baike.baidu.com/item/%E7%BD%97%E6%B1%89%E5%8D%81%E5%85%AB%E6%89%8B"
   }
  ],
  "emperors": [
